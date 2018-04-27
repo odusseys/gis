@@ -1,4 +1,6 @@
-import requests, asyncio, concurrent
+import requests
+import asyncio
+import concurrent
 from bs4 import BeautifulSoup
 
 
@@ -10,6 +12,7 @@ soup = BeautifulSoup(page, "html.parser")
 
 cards = soup.find_all(class_="col-lg-3 col-md-4 col-sm-6 col-xs-6")
 links = ["{}{}".format(URL, c.a["href"]) for c in cards]
+
 
 def scrape_event(url):
     event_page = requests.get(url).text
@@ -23,14 +26,27 @@ def scrape_event(url):
         start_time = times[0]
         end_time = times[1][2:]
     except:
-        start_time=None
-        end_time=None
+        start_time = None
+        end_time = None
     try:
         place = details[1].find_all("td")[1].string
     except:
         place = None
+    try:
+        description = "\n".join(list(soup.find(class_="ww").strings))
+    except:
+        description = None
     print("scraped {}".format(title))
-    return dict(title=title, place=place, image_url=image_url, start_time=start_time, end_time=end_time)
+    return dict(name=title,
+                place=place,
+                image_url=image_url,
+                start_time=start_time,
+                end_time=end_time,
+                description=description)
+
+
+def handle_results(results):
+    print(results)
 
 
 async def main():
@@ -40,8 +56,8 @@ async def main():
         loop = asyncio.get_event_loop()
         futures = [
             loop.run_in_executor(
-                executor, 
-                scrape_event, 
+                executor,
+                scrape_event,
                 url
             )
             for url in links
@@ -49,10 +65,8 @@ async def main():
         res = []
         for response in await asyncio.gather(*futures):
             res.append(response)
-        print(res)
+        handle_results(res)
 
 
 loop = asyncio.get_event_loop()
 loop.run_until_complete(main())
-
-
