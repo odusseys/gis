@@ -13,6 +13,7 @@ class Event(Base):
     __tablename__ = 'event'
     id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False)
+    identifier = Column(String(250), nullable=False)
     description = Column(String(250), nullable=False, default="")
     image_url = Column(String(250), nullable=True)
     start_date = Column(DateTime(250), nullable=False)

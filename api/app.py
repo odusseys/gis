@@ -6,7 +6,10 @@ from api.views import gis
 
 def create_app():
     app = Flask('gis-api')
-    app.config.from_object(config)
+    print(config)
+    app.config.from_mapping(config)
     app.register_blueprint(gis)
-    db.init_app(app)
+    with app.app_context():
+        db.init_app(app)
+        db.create_all()
     return app
