@@ -6,6 +6,7 @@ const colors = {
   coal: '#666666',
   black: '#303030',
   night: '#1f1c4c',
+  purple: '#5747e8',
   lightPurple: '#eceaff',
 };
 export default colors;

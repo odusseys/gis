@@ -1,9 +1,22 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Image } from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons';
+
 import { Caption, Body, Title } from '../../library/text';
 import colors from '../../styles/colors';
-import { MaterialIcons } from '@expo/vector-icons';
+
+const IconRowStyle = styled.View`
+  flex-direction: row;
+`;
+const IconRow = ({ name, text }) => {
+  return (
+    <IconRowStyle>
+      <MaterialIcons name={name} color="white" style={{ marginRight: 12 }} />
+      {text}
+    </IconRowStyle>
+  );
+};
 
 const Container = styled.View`
   flex: 1;
@@ -35,7 +48,10 @@ const Event = ({
         />
       </ImageContainer>
       <Title text={name} color="white" />
-      <Caption text={place_name} color="white" />
+      <IconRow
+        name="location-on"
+        text={<Caption text={place_name} color="white" />}
+      />
       <Caption text={start_date} color="white" />
       <Caption text={end_date} color="white" />
       <Body text={description} color="white" />
