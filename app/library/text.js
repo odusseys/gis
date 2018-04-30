@@ -1,9 +1,27 @@
 import React from 'react';
 import { StyleSheet, Text as RNText } from 'react-native';
 import { getLocaleString } from '../services/i18n';
+import colors from '../styles/colors';
 
-export const Text = ({ language, name, values, ...rest }) => {
-  return <RNText {...rest}>{getLocaleString(language, name, values)}</RNText>;
+const getColor = color => colors[color] || color || colors.black;
+
+export const Text = ({
+  style,
+  language,
+  name,
+  text,
+  values,
+  color,
+  ...rest
+}) => {
+  return (
+    <RNText
+      style={StyleSheet.flatten([{ color: getColor(color) }, style])}
+      {...rest}
+    >
+      {text || getLocaleString(language, name, values)}
+    </RNText>
+  );
 };
 
 const styledText = textStyle => ({ style, ...rest }) => (
