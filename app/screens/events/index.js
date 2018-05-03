@@ -1,8 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
+import { FlatList } from 'react-native';
+
 import EventItem from './EventItem';
 import Async from '../../library/Async';
-import api from '../../api';
+import { getEvents } from '../../services/events';
 
 const Container = styled.View`
   flex: 1;
@@ -16,12 +18,18 @@ export default class Events extends React.Component {
   render() {
     return (
       <Container>
-        <Async fetchData={api.events.list}>
-          {events =>
-            events.map((e, i) => (
-              <EventItem onPress={() => this.goToEvent(e)} key={i} {...e} />
-            ))
-          }
+        <Async fetchData={getEvents}>
+          {events => (
+            <FlatList
+              data={events}
+              keyExtractor={e => e.id}
+              renderItem={({ item }) => {
+                return (
+                  <EventItem onPress={() => this.goToEvent(item)} {...item} />
+                );
+              }}
+            />
+          )}
         </Async>
       </Container>
     );

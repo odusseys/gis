@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Image } from 'react-native';
+import { Image, View } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
 import { Caption, Body } from '../../library/text';
@@ -33,8 +33,11 @@ const EventItem = ({ onPress, name, place_name, image_url }) => {
           style={{ maxHeight: '100%', height: '100%' }}
         />
       </ImageContainer>
-      <Body text={name} color="lightPurple" />
-      <Caption text={place_name} color="lightPurple" />
+      <View>
+        <Body text={name} color="lightPurple" />
+        <Caption text={place_name} color="lightPurple" />
+      </View>
+
       <MaterialIcons name="chevron-right" color={colors.lightPurple} />
     </Container>
   );

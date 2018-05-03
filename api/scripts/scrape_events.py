@@ -32,7 +32,6 @@ class ScrapeResult:
         self.end_time = end_time
         self.description = description
         self.identifier = to_slug("{}-{}".format(name, str(self.start_time)))
-        print(self.name, self.identifier)
         self.place_identifier = to_slug(place)
 
     def is_valid(self):

@@ -8,6 +8,6 @@ def get_env(v):
     return env
 
 
-env = ['SQLALCHEMY_DATABASE_URI']
+env = ['SQLALCHEMY_DATABASE_URI', 'ENCRYPTION_KEY']
 
 config = {v: get_env(v) for v in env}

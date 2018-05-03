@@ -5,3 +5,4 @@ Flask-SQLAlchemy==2.3.2
 PyMySQL==0.8.0
 Unidecode==1.0.22
 python-dateutil==2.7.2
+cryptography==2.2.2
