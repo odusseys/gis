@@ -1,13 +1,10 @@
+import json
 import os
+config = None
 
-
-def get_env(v):
-    env = os.environ.get(v)
-    if env is None:
-        raise ValueError("Missing in environment : {}".format(v))
-    return env
-
-
-env = ['SQLALCHEMY_DATABASE_URI', 'ENCRYPTION_KEY']
-
-config = {v: get_env(v) for v in env}
+try:
+    folder = os.path.dirname(__file__)
+    with open(os.path.join(folder, "config.json")) as config_file:
+        config = json.load(config_file)
+except:
+    raise ValueError("No config.json file found in api folder")

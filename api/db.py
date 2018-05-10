@@ -1,6 +1,6 @@
-from api.models import metadata
 from flask_sqlalchemy import SQLAlchemy
 from contextlib import contextmanager
+from api.models import metadata
 
 db = SQLAlchemy(metadata=metadata)
 

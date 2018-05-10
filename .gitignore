@@ -2,3 +2,4 @@ venv
 **/__pycache__/**
 run_dev.sh
 connect_server.sh
+api/config.json

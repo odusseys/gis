@@ -12,3 +12,4 @@ def handle_api_error(error):
 
 
 from api.views.event_views import *
+from api.views.auth_views import *
