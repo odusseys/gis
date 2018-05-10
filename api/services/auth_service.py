@@ -95,6 +95,9 @@ def verification(phone_number, language):
 
 def signup(name, phone_number, verification_code):
     normalized = normalize_number(phone_number)
+    actual_code = get_phone_verification_code(normalized)
+    if verification_code != actual_code:
+        raise BadRequest("Wrong verification code, or it has expired")
     try:
         encrypted_phone_number = encrypt_number(normalized)
     except NumberParseException:
