@@ -1,4 +1,4 @@
-from api.db import db
+from api.clients.db import db
 from api.models.event_models import Event, Place
 
 

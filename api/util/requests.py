@@ -2,7 +2,7 @@ from flask import request, g
 from api.util.exceptions import BadRequest
 
 
-def get_value(name):
+def get_value(name, default=None):
     if name in request.values:
         return request.values.get(name)
     try:
@@ -11,7 +11,7 @@ def get_value(name):
         g.body = None
     if g.body is not None and name in g.body:
         return g.body[name]
-    return None
+    return default
 
 
 def get_required_value(name):

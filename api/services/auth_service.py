@@ -3,22 +3,32 @@ import phonenumbers
 import hashlib
 from phonenumbers.phonenumberutil import NumberParseException
 import jwt
+from random import randint
 from api.config import config
 from api.util.exceptions import Conflict, BadRequest, Unauthorized
-from api.db import session_scope
+from api.clients.db import session_scope
 from api.models.user_models import User, UserContact
+from api.clients.redis import cached
+from api.clients.sms import post_message
 
 CIPHER = Fernet(config["ENCRYPTION_KEY"])
 
+I18N = dict(
+    FR="Votre code de vérification pour GIS est {}",
+    EN="Your verification code for GIS is {}"
+)
+
 
 def generate_auth_token(user_id):
-    return jwt.encode(dict(user_id=user_id), config["USER_AUTH_SECRET"], algorithm="HS256").decode("utf-8")
+    payload = dict(user_id=user_id)
+    secret = config["USER_AUTH_SECRET"]
+    return jwt.encode(payload, secret, algorithm="HS256").decode("utf-8")
 
 
 def get_user_from_token(token):
     try:
-        jwt.decode(token, config["USER_AUTH_SECRET"], algorithm="HS256")[
-            "user_ud"]
+        jwt.decode(token, config["USER_AUTH_SECRET"],
+                   algorithm="HS256")["user_id"]
     except:
         raise Unauthorized()
 
@@ -45,7 +55,7 @@ def encrypt_number(number):
 
 
 def hash_number(number):
-    m = hashlib.sha3_512()
+    m = hashlib.sha3_512()  # pylint: disable
     m.update(number.encode("utf-8"))
     return m.hexdigest()
 
@@ -65,7 +75,25 @@ def _import_contacts_nt(session, user_id, contacts):
             continue
 
 
-def signup(name, phone_number, contacts):
+@cached(region="phone-verification", ttl=300)
+def get_phone_verification_code(encrypted_phone_number):
+    return randint(100000, 999999)
+
+
+def verification(phone_number, language):
+    if language not in I18N:
+        raise BadRequest("Unsupported language")
+    normalized = normalize_number(phone_number)
+    try:
+        encrypted_phone_number = encrypt_number(normalized)
+    except NumberParseException:
+        raise BadRequest("INVALID_NUMBER")
+    code = get_phone_verification_code(encrypted_phone_number)
+    message = I18N[language].format(code)
+    post_message(normalized, message)
+
+
+def signup(name, phone_number, verification_code):
     normalized = normalize_number(phone_number)
     try:
         encrypted_phone_number = encrypt_number(normalized)
@@ -84,13 +112,8 @@ def signup(name, phone_number, contacts):
         )
         session.add(user)
         session.flush()
-        _import_contacts_nt(session, user.id, contacts)
-        session.flush()
         auth_info = user_to_dict(user)
     return auth_info
-
-
-def signin(number):
 
 
 def get_friends(user_id):
