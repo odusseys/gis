@@ -19,17 +19,21 @@ export default class Events extends React.Component {
     return (
       <Container>
         <Async fetchData={getEvents}>
-          {events => (
-            <FlatList
-              data={events}
-              keyExtractor={e => e.id}
-              renderItem={({ item }) => {
-                return (
-                  <EventItem onPress={() => this.goToEvent(item)} {...item} />
-                );
-              }}
-            />
-          )}
+          {events => {
+            console.warn(events.map(e => e.id));
+            return (
+              <FlatList
+                style={{ backgroundColor: 'white' }}
+                data={events.slice(0, 10)}
+                keyExtractor={e => e.id}
+                renderItem={({ item }) => {
+                  return (
+                    <EventItem onPress={() => this.goToEvent(item)} {...item} />
+                  );
+                }}
+              />
+            );
+          }}
         </Async>
       </Container>
     );

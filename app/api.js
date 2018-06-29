@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const client = axios.create({
-  baseURL: 'http://34.246.84.126',
+  baseURL: 'http://api.gis.odusseys.com',
 });
 
 const api = {

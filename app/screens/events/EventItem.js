@@ -15,8 +15,8 @@ const Container = styled.TouchableOpacity`
   margin-horizontal: 10px;
   margin-vertical: 3px;
   border-radius: 2px;
-  border: 1px ${colors.lightPurple} solid;
-  background-color: ${colors.purple};
+  border: 1px ${colors.coal} solid;
+  background-color: ${colors.white};
 `;
 const ImageContainer = styled.View`
   max-width: 100px;
@@ -34,8 +34,8 @@ const EventItem = ({ onPress, name, place_name, image_url }) => {
         />
       </ImageContainer>
       <View>
-        <Body text={name} color="lightPurple" />
-        <Caption text={place_name} color="lightPurple" />
+        <Body text={name} color="black" />
+        <Caption text={place_name} color="black" />
       </View>
 
       <MaterialIcons name="chevron-right" color={colors.lightPurple} />

@@ -1,5 +1,12 @@
 import React from 'react';
-import { StyleSheet, View, StatusBar, Platform, Image } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  StatusBar,
+  Platform,
+  Image,
+  SafeAreaView,
+} from 'react-native';
 import { PersistGate } from 'redux-persist/es/integration/react';
 import { Provider } from 'react-redux';
 import styled from 'styled-components';
@@ -32,20 +39,22 @@ const App = () => {
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor}>
-        <View style={styles.container}>
-          <Header>
-            <Image
-              source={require('./assets/images/unicorn.png')}
-              style={{
-                maxHeight: '100%',
-                height: '100%',
-                resizeMode: 'contain',
-              }}
-            />
-          </Header>
-          <StatusBar backgroundColor={colors.night} barStyle="dark-content" />
-          <Stack />
-        </View>
+        <SafeAreaView style={{ flex: 1 }}>
+          <View style={styles.container}>
+            <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
+            <Header>
+              <Image
+                source={require('./assets/images/unicorn.png')}
+                style={{
+                  maxHeight: '100%',
+                  height: '100%',
+                  resizeMode: 'contain',
+                }}
+              />
+            </Header>
+            <Stack />
+          </View>
+        </SafeAreaView>
       </PersistGate>
     </Provider>
   );
@@ -56,7 +65,7 @@ export default App;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.night,
+    backgroundColor: colors.white,
     paddingTop: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight,
   },
 });

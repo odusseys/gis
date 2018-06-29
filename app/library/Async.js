@@ -1,8 +1,11 @@
 import React from 'react';
 import { View, ActivityIndicator } from 'react-native';
 import { Body } from './text';
-
-const Container = ({ children }) => <View>{children}</View>;
+import styled from 'styled-components';
+const Container = styled.View`
+  flex: 1;
+  background-color: transparent;
+`;
 export default class Async extends React.Component {
   state = { loading: true, error: false, props: null };
 

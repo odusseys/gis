@@ -21,7 +21,7 @@ const IconRow = ({ name, text }) => {
 const Container = styled.View`
   flex: 1;
   align-items: center;
-  background-color: ${colors.night};
+  background-color: ${colors.white};
 `;
 const ImageContainer = styled.View`
   max-width: 200px;

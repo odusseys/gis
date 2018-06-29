@@ -7,7 +7,7 @@ def list_events():
         Event.place_id == Place.id).all()
 
     def to_json(event, place):
-        return dict(id=place.id,
+        return dict(id=event.id,
                     name=event.name,
                     start_date=event.start_date,
                     end_date=event.end_date,
