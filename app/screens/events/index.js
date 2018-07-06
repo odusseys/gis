@@ -5,10 +5,13 @@ import { FlatList } from 'react-native';
 import EventItem from './EventItem';
 import Async from '../../library/Async';
 import { getEvents } from '../../services/events';
+import { Title } from '../../library/text';
 
 const Container = styled.View`
   flex: 1;
   align-self: stretch;
+  align-items: center;
+  background-color: white;
 `;
 
 export default class Events extends React.Component {
@@ -18,6 +21,7 @@ export default class Events extends React.Component {
   render() {
     return (
       <Container>
+        <Title name="EVENTS" />
         <Async fetchData={getEvents}>
           {events => {
             console.warn(events.map(e => e.id));

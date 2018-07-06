@@ -117,10 +117,3 @@ def signup(name, phone_number, verification_code):
         session.flush()
         auth_info = user_to_dict(user)
     return auth_info
-
-
-def get_friends(user_id):
-    with session_scope() as session:
-        friends = session.query(User).filter(
-            User.id == UserContact.user_id, UserContact.user_id == user_id).all()
-        return [dict(name=u.name) for u in friends]

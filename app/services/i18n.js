@@ -1,8 +1,8 @@
 import FR from '../i18n/FR.json';
 
-const DEFAULT_LOCALE = 'EN';
+const DEFAULT_LOCALE = 'FR';
 
-const locales = [FR];
+const locales = { FR };
 
 function format(text, values = {}) {
   const keys = Object.keys(values);

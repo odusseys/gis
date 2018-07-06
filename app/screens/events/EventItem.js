@@ -13,8 +13,7 @@ const Container = styled.TouchableOpacity`
   justify-content: space-between;
   padding: 10px;
   margin-horizontal: 10px;
-  margin-vertical: 3px;
-  border-radius: 2px;
+  margin-vertical: 5px;
   border: 1px ${colors.coal} solid;
   background-color: ${colors.white};
 `;

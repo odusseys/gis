@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { StyleSheet, Text as RNText } from 'react-native';
 import { getLocaleString } from '../services/i18n';
 import colors from '../styles/colors';
@@ -16,7 +17,10 @@ export const Text = ({
 }) => {
   return (
     <RNText
-      style={StyleSheet.flatten([{ color: getColor(color) }, style])}
+      style={StyleSheet.flatten([
+        { color: getColor(color), backgroundColor: 'rgba(0,0,0,0)' },
+        style,
+      ])}
       {...rest}
     >
       {text || getLocaleString(language, name, values)}
@@ -24,8 +28,12 @@ export const Text = ({
   );
 };
 
+const LocaleText = connect(state => ({ language: state.config.language }))(
+  Text,
+);
+
 const styledText = textStyle => ({ style, ...rest }) => (
-  <Text style={StyleSheet.flatten([style, textStyle])} {...rest} />
+  <LocaleText style={StyleSheet.flatten([style, textStyle])} {...rest} />
 );
 
 const styles = StyleSheet.create({
