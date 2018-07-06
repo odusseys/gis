@@ -1,10 +1,16 @@
 from typing import Optional
-
+from datetime import datetime
+from sqlalchemy.sql.functions import count
+from sqlalchemy import alias
 from api.models.message_models import Message, Thread, ThreadUser, ThreadAdmin, ThreadEvent
 from api.models.user_models import User
 from api.models.event_models import Event
 from api.clients.db import session_scope
 from api.util.exceptions import BadRequest, Forbidden
+from api.util.functional import group_by
+
+
+MESSAGE_PAGE_SIZE = 25
 
 
 def get_thread_info(thread_id: int):
@@ -67,4 +73,71 @@ def kick_user(user_id: int, thread_id: int, kicked_user_id: int):
             if admin is not None:
                 session.delete(thread_user)
             else:
-                raise Forbidden("You are not allowed to kick this user")
+                raise Forbidden()
+
+
+def list_threads(user_id: int):
+    with session_scope() as session:
+        ThreadUser2 = alias(ThreadUser)
+        thread_users = session.query(Thread, User.name).filter(
+            ThreadUser.user_id == user_id,
+            TheadUser.thread_id == Thread.id,
+            ThreadUser2.thread_id == Thread.id,
+            User.id == ThreadUser2.user_id,
+            ThreadUser2.user_id != user_id
+        ).all()
+
+        by_thread = group_by(thread_users, by=lambda x: x[0].id)
+        results = []
+        for _, items in by_thread.items():
+            thread = items[0][0]
+            user_names = [x[1] for x in items]
+            results.append(dict(
+                thread=dict(
+                    name=thread.name,
+                    id=thread.id
+                ),
+                user_names=user_names
+            ))
+        return results
+
+
+def parse_timestamp(timestamp: str):
+    raise NotImplementedError("Must parse timestamp")
+
+
+def post_message(user_id: int,
+                 thread_id: int,
+                 timestamp: str,
+                 content: str,
+                 image_url: Optional[str],
+                 location_longitude: Optional[int],
+                 location_latitude: Optional[int],
+                 event_id: Optional[int]):
+    timestamp = parse_timestamp(timestamp)
+    with session_scope() as session:
+        thread_user = session.query(ThreadUser).filter(
+            ThreadUser.id == user_id,
+            Thread.id == thread_id
+        ).first()
+        if thread_user is None:
+            raise Forbidden()
+        message = Message(
+            thread_user_id=thread_user.id,
+            timestamp=timestamp,
+            content=content,
+            image_url=image_url,
+            location_longitude=location_longitude,
+            location_latitude=location_latitude,
+            event_id=event_id)
+        session.add(message)
+
+
+def list_messages(user_id: int, thread_id: int, starting_from: Optional[str]):
+    if starting_from is None:
+        starting_from = datetime.now()
+    else:
+        starting_from = parse_timestamp(starting_from)
+
+    with session_scope() as session:
+        raise NotImplementedError("Check sqlalchemy order by and limit syntax")

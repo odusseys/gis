@@ -7,6 +7,7 @@ from api.models.event_models import Event
 class Thread(Base):
     __tablename__ = 'thread'
     id = Column(Integer, primary_key=True)
+    creation_date = Column(DateTime, nullable=False, index=True)
     creator_id = Column(Integer, ForeignKey(User.id))
     name = Column(String(250), nullable=True)
     color = Column(String(250), nullable=True)
