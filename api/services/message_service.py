@@ -81,7 +81,7 @@ def list_threads(user_id: int):
         ThreadUser2 = alias(ThreadUser)
         thread_users = session.query(Thread, User.name).filter(
             ThreadUser.user_id == user_id,
-            TheadUser.thread_id == Thread.id,
+            ThreadUser.thread_id == Thread.id,
             ThreadUser2.thread_id == Thread.id,
             User.id == ThreadUser2.user_id,
             ThreadUser2.user_id != user_id
