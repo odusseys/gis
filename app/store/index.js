@@ -3,9 +3,11 @@ import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
 import config from './config';
+import auth from './auth';
 
 const rootReducer = combineReducers({
   config,
+  auth,
 });
 
 const persistConfig = {

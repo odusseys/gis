@@ -9,12 +9,16 @@ import {
 } from 'react-native';
 import { PersistGate } from 'redux-persist/es/integration/react';
 import { Provider } from 'react-redux';
+import { StackNavigator } from 'react-navigation';
 import styled from 'styled-components';
+
 import Events from './screens/events';
+import Signup from './screens/auth/Signup';
+import Splash from './screens/splash';
 import Event from './screens/events/Event';
 import store, { persistor } from './store';
 import colors from './styles/colors';
-import { StackNavigator } from 'react-navigation';
+import { Title } from './library/text';
 
 const Header = styled.View`
   max-height: 50px;
@@ -25,11 +29,13 @@ const Header = styled.View`
 
 const Stack = StackNavigator(
   {
+    Splash: { screen: Splash },
+    Signup: { screen: Signup },
     Home: { screen: Events },
     Event: { screen: Event },
   },
   {
-    initialRouteName: 'Home',
+    initialRouteName: 'Splash',
     headerMode: 'none',
     cardStyle: { backgroundColor: 'transparent' },
   },
@@ -43,14 +49,7 @@ const App = () => {
           <View style={styles.container}>
             <StatusBar backgroundColor={colors.white} barStyle="dark-content" />
             <Header>
-              <Image
-                source={require('./assets/images/unicorn.png')}
-                style={{
-                  maxHeight: '100%',
-                  height: '100%',
-                  resizeMode: 'contain',
-                }}
-              />
+              <Title text="Kiki" style={{ fontSize: 40, fontWeight: 'bold' }} />
             </Header>
             <Stack />
           </View>

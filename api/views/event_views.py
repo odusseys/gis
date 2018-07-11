@@ -6,6 +6,7 @@ from api.services.auth_service import requires_user_auth
 
 
 @gis.route('/v1/events')
+@requires_user_auth
 def list_events_endpoint():
     return jsonify(list_events())
 

@@ -33,7 +33,7 @@ const LocaleText = connect(state => ({ language: state.config.language }))(
 );
 
 const styledText = textStyle => ({ style, ...rest }) => (
-  <LocaleText style={StyleSheet.flatten([style, textStyle])} {...rest} />
+  <LocaleText style={StyleSheet.flatten([textStyle, style])} {...rest} />
 );
 
 const styles = StyleSheet.create({

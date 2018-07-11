@@ -1,4 +1,12 @@
 {
   "EVENTS": "Évènements",
-  "ERROR": "Une erreur est survenue."
+  "ERROR": "Une erreur est survenue.",
+  "WELCOME": "Bienvenue sur Kiki :)",
+  "FIRST_SIGNUP": "Pour commencer, crée un compte.",
+  "PICK_NAME": "Choisis un nom",
+  "ENTER_PHONE": "Entre ton numéro de téléphone",
+  "RECEIVE_VERIFICATION": "Recevoir le code de vérification",
+  "VALIDATION_SENT": "Le code de validation a été envoyé au $phoneNumber",
+  "ENTER_VALIDATION": "Entre le code de validation",
+  "VALIDATE": "Valider"
 }

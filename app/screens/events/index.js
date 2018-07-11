@@ -24,7 +24,6 @@ export default class Events extends React.Component {
         <Title name="EVENTS" />
         <Async fetchData={getEvents}>
           {events => {
-            console.warn(events.map(e => e.id));
             return (
               <FlatList
                 style={{ backgroundColor: 'white' }}
