@@ -49,8 +49,10 @@ class Signup extends React.Component {
     const res = await api.auth.signup({
       phone_number: { number: this.props.phoneNumber, region: 'FR' },
       name: this.props.name,
+      verification_code: this.state.verificationCode,
     });
     this.props.dispatch({ type: 'LOGIN', ...res });
+    this.props.navigation.navigate('Home');
   };
 
   renderPreSignup = () => {

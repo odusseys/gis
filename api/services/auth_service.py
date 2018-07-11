@@ -86,7 +86,7 @@ def get_phone_verification_code(normalized_phone_number):
     return randint(100000, 999999)
 
 
-def verification(phone_number, language, check_user=False):
+def verification(phone_number, language="EN", check_user=False):
     if language not in I18N:
         raise BadRequest("Unsupported language")
     normalized_phone_number = normalize_number(phone_number)
