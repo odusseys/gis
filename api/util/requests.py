@@ -3,6 +3,7 @@ from api.util.exceptions import BadRequest
 
 
 def get_value(name, default=None):
+    print(request.values)
     if name in request.values:
         return request.values.get(name)
     try:

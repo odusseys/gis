@@ -1,20 +1,29 @@
 import axios from 'axios';
+import store from './store';
 
 const client = axios.create({
   baseURL: 'http://127.0.0.1:5000',
 });
 
+const withAuth = params => ({ ...params, token: store.getState().auth.token });
+
+const get = async (endpoint, data = {}) => {
+  return (await client.get(endpoint, { params: withAuth(data) })).data;
+};
+
+const post = async (endpoint, data = {}) => {
+  return (await client.post(endpoint, withAuth(data))).data;
+};
+
 const api = {
   events: {
-    list: async () => (await client.get('/v1/events')).data,
+    list: () => get('/v1/events'),
   },
   auth: {
-    signupVerification: async data =>
-      (await client.post('/v1/auth/signup/verification', data)).data,
-    signup: async data => (await client.post('/v1/auth/signup', data)).data,
-    loginVerification: async data =>
-      (await client.post('/v1/auth/login/verification', data)).data,
-    login: async data => (await client.post('/v1/auth/login', data)).data,
+    signupVerification: data => post('/v1/auth/signup/verification', data),
+    signup: data => post('/v1/auth/signup', data),
+    loginVerification: data => post('/v1/auth/login/verification', data),
+    login: data => post('/v1/auth/login', data),
   },
 };
 
