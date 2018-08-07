@@ -12,6 +12,9 @@ const api = {
     signupVerification: async data =>
       (await client.post('/v1/auth/signup/verification', data)).data,
     signup: async data => (await client.post('/v1/auth/signup', data)).data,
+    loginVerification: async data =>
+      (await client.post('/v1/auth/login/verification', data)).data,
+    login: async data => (await client.post('/v1/auth/login', data)).data,
   },
 };
 

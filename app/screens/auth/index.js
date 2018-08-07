@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import { Title, Body } from '../../library/text';
 import { TextButton } from '../../library/buttons';
+import PhoneInput from 'react-native-phone-input';
 import api from '../../api';
 
 const Container = styled.View`
@@ -20,6 +21,7 @@ const Form = styled.View`
 `;
 
 const FormLine = styled.View`
+  margin-bottom: 12;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
@@ -32,63 +34,91 @@ const Input = styled.TextInput`
   width: 100px;
 `;
 
+const ToggleLink = styled.TouchableOpacity`
+  align-self: center;
+  margin-top: 25;
+`;
+
 class Signup extends React.Component {
   state = {
     verificationSent: false,
+    isSignup: true,
     verificationCode: '',
   };
 
   sendValidationRequest = async () => {
-    await api.auth.signupVerification({
-      phone_number: { number: this.props.phoneNumber, region: 'FR' },
+    const verification = this.state.isSignup
+      ? api.auth.signupVerification
+      : api.auth.loginVerification;
+    await verification({
+      phone_number: { number: this.props.phoneNumber },
     });
     this.setState({ verificationSent: true });
   };
 
-  signup = async () => {
-    const res = await api.auth.signup({
-      phone_number: { number: this.props.phoneNumber, region: 'FR' },
-      name: this.props.name,
-      verification_code: this.state.verificationCode,
-    });
+  submit = async () => {
+    let res;
+    if (this.state.isSignup) {
+      res = await api.auth.signup({
+        phone_number: { number: this.props.phoneNumber },
+        name: this.props.name,
+        verification_code: this.state.verificationCode,
+      });
+    } else {
+      res = await api.auth.login({
+        phone_number: { number: this.props.phoneNumber },
+        verification_code: this.state.verificationCode,
+      });
+    }
+    console.warn('result is: ', res);
     this.props.dispatch({ type: 'LOGIN', ...res });
     this.props.navigation.navigate('Home');
   };
 
-  renderPreSignup = () => {
-    const { phoneNumber, name, dispatch } = this.props;
+  renderBeforeValidation = () => {
+    const { name, dispatch } = this.props;
+    const { isSignup } = this.state;
     return (
       <Container>
         <Title name="WELCOME" />
-        <Body name="FIRST_SIGNUP" style={{ marginTop: 10 }} />
+        <Body
+          name={isSignup ? 'FIRST_SIGNUP' : 'LOGIN'}
+          style={{ marginTop: 10 }}
+        />
         <Form>
-          <FormLine>
-            <Body name="PICK_NAME" />
-            <Input
-              value={name || ''}
-              onChangeText={e => dispatch({ type: 'SET_NAME', name: e })}
-            />
-          </FormLine>
-          <FormLine>
-            <Body name="ENTER_PHONE" />
-            <Input
-              value={phoneNumber || ''}
-              onChangeText={e =>
-                dispatch({ type: 'SET_PHONE_NUMBER', phoneNumber: e })
-              }
-            />
-          </FormLine>
+          {isSignup && (
+            <FormLine>
+              <Body name="PICK_NAME" />
+              <Input
+                value={name || ''}
+                onChangeText={e => dispatch({ type: 'SET_NAME', name: e })}
+              />
+            </FormLine>
+          )}
+          <Body name="ENTER_PHONE" style={{ marginBottom: 10 }} />
+          <PhoneInput
+            initialCountry="fr"
+            onChangePhoneNumber={number => {
+              this.props.dispatch({
+                type: 'SET_PHONE_NUMBER',
+                phoneNumber: number,
+              });
+            }}
+          />
           <TextButton
             name="RECEIVE_VERIFICATION"
             style={{ marginTop: 40 }}
             onPress={this.sendValidationRequest}
           />
+          <ToggleLink onPress={() => this.setState({ isSignup: !isSignup })}>
+            <Body name={isSignup ? 'LOGIN' : 'SIGNUP'} />
+          </ToggleLink>
         </Form>
       </Container>
     );
   };
 
-  renderPostSignup = () => {
+  renderPendingValidation = () => {
     const { phoneNumber } = this.props;
     return (
       <Container>
@@ -105,7 +135,7 @@ class Signup extends React.Component {
         <TextButton
           name="VALIDATE"
           style={{ marginTop: 40 }}
-          onPress={this.signup}
+          onPress={this.submit}
         />
       </Container>
     );
@@ -113,8 +143,8 @@ class Signup extends React.Component {
 
   render() {
     return this.state.verificationSent
-      ? this.renderPostSignup()
-      : this.renderPreSignup();
+      ? this.renderPendingValidation()
+      : this.renderBeforeValidation();
   }
 }
 

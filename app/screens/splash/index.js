@@ -10,9 +10,8 @@ const Container = styled.View`
   flex: 1;
 `;
 
-class Signup extends React.Component {
+class Splash extends React.Component {
   componentDidMount = () => {
-    console.warn(this.props.token);
     const route = this.props.token ? 'Home' : 'Signup';
     this.props.navigation.navigate(route);
   };
@@ -29,4 +28,4 @@ const mapper = ({ auth }) => ({
   token: auth.token,
 });
 
-export default connect(mapper)(Signup);
+export default connect(mapper)(Splash);

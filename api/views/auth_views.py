@@ -35,5 +35,5 @@ def signup_endpoint():
 @gis.route('/auth/login', methods=["POST"])
 def login_endpoint():
     phone_number = get_required_value("phone_number")
-    verification_code = get_required_value("verification_code")
+    verification_code = int(get_required_value("verification_code"))
     return jsonify(login(phone_number, verification_code))

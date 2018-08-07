@@ -4,7 +4,6 @@ import {
   View,
   StatusBar,
   Platform,
-  Image,
   SafeAreaView,
 } from 'react-native';
 import { PersistGate } from 'redux-persist/es/integration/react';
@@ -13,7 +12,7 @@ import { StackNavigator } from 'react-navigation';
 import styled from 'styled-components';
 
 import Events from './screens/events';
-import Signup from './screens/auth/Signup';
+import Auth from './screens/auth';
 import Splash from './screens/splash';
 import Event from './screens/events/Event';
 import store, { persistor } from './store';
@@ -30,7 +29,7 @@ const Header = styled.View`
 const Stack = StackNavigator(
   {
     Splash: { screen: Splash },
-    Signup: { screen: Signup },
+    Signup: { screen: Auth },
     Home: { screen: Events },
     Event: { screen: Event },
   },
