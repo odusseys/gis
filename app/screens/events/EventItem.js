@@ -14,7 +14,9 @@ const Container = styled.TouchableOpacity`
   padding: 10px;
   margin-horizontal: 10px;
   margin-vertical: 5px;
-  border: 1px ${colors.coal} solid;
+  shadow-color: black;
+  shadow-opacity: 0.2;
+  shadow-offset: 1px 1px;
   background-color: ${colors.white};
 `;
 const ImageContainer = styled.View`

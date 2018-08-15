@@ -36,7 +36,16 @@ const Stack = StackNavigator(
   {
     initialRouteName: 'Splash',
     headerMode: 'none',
-    cardStyle: { backgroundColor: 'transparent' },
+    cardStyle: {
+      backgroundColor: 'transparent',
+      elevation: 0,
+      shadowColor: '#5bc4ff',
+      shadowOpacity: 0,
+      shadowOffset: {
+        height: 0,
+      },
+      shadowRadius: 0,
+    },
   },
 );
 
