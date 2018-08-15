@@ -13,6 +13,7 @@ from api.models.user_models import User, UserContact
 from api.clients.redis import cached
 from api.clients.sms import post_message
 from api.util.requests import get_required_value
+from functools import wraps
 
 
 I18N = dict(
@@ -137,6 +138,7 @@ def login(phone_number, verification_code):
 
 
 def requires_user_auth(f):
+    @wraps(f)
     def wrap(*x, **y):
         token = get_required_value("token")
         if token is None:

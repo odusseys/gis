@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Image } from 'react-native';
+import { Image, ScrollView } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
 import { Caption, Body, Title } from '../../library/text';
@@ -41,20 +41,22 @@ const Event = ({
 }) => {
   return (
     <Container onPress={onPress}>
-      <ImageContainer>
-        <Image
-          source={{ uri: image_url }}
-          style={{ maxHeight: '100%', height: '100%' }}
+      <ScrollView>
+        <ImageContainer>
+          <Image
+            source={{ uri: image_url }}
+            style={{ maxHeight: '100%', height: '100%' }}
+          />
+        </ImageContainer>
+        <Title text={name} color="black" />
+        <IconRow
+          name="location-on"
+          text={<Caption text={place_name} color="black" />}
         />
-      </ImageContainer>
-      <Title text={name} color="white" />
-      <IconRow
-        name="location-on"
-        text={<Caption text={place_name} color="white" />}
-      />
-      <Caption text={start_date} color="white" />
-      <Caption text={end_date} color="white" />
-      <Body text={description} color="white" />
+        <Caption text={start_date} color="black" />
+        <Caption text={end_date} color="black" />
+        <Body text={description} color="black" />
+      </ScrollView>
     </Container>
   );
 };

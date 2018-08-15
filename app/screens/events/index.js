@@ -6,6 +6,7 @@ import EventItem from './EventItem';
 import Async from '../../library/Async';
 import { getEvents } from '../../services/events';
 import { Title } from '../../library/text';
+import api from '../../api';
 
 const Container = styled.View`
   flex: 1;
@@ -15,29 +16,43 @@ const Container = styled.View`
 `;
 
 export default class Events extends React.Component {
-  goToEvent = e => {
+  state = {
+    events: [],
+    loading: false,
+  };
+  componentDidMount = () => {
+    this.setState({ loading: true }, async () => {
+      const events = await getEvents();
+      this.setState({ events, loading: false });
+    });
+  };
+  goToEvent = e => () => {
     this.props.navigation.navigate('Event', e);
+  };
+  interestToggle = e => async () => {
+    const interested = !e.interested;
+    await api.events.interested({ event_id: e.id, interested });
+    e.interested = interested;
+    this.setState({ events: this.state.events });
   };
   render() {
     return (
       <Container>
-        <Title name="EVENTS" />
-        <Async fetchData={getEvents}>
-          {events => {
+        <Title name="EVENTS" style={{ marginBottom: 20 }} />
+        <FlatList
+          style={{ backgroundColor: 'white' }}
+          data={this.state.events.slice(0, 10)}
+          keyExtractor={e => e.id}
+          renderItem={({ item }) => {
             return (
-              <FlatList
-                style={{ backgroundColor: 'white' }}
-                data={events.slice(0, 10)}
-                keyExtractor={e => e.id}
-                renderItem={({ item }) => {
-                  return (
-                    <EventItem onPress={() => this.goToEvent(item)} {...item} />
-                  );
-                }}
+              <EventItem
+                onInterestToggle={this.interestToggle(item)}
+                onPress={this.goToEvent(item)}
+                {...item}
               />
             );
           }}
-        </Async>
+        />
       </Container>
     );
   }

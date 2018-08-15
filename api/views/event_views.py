@@ -8,11 +8,11 @@ from api.services.auth_service import requires_user_auth
 @gis.route('/v1/events')
 @requires_user_auth
 def list_events_endpoint():
-    return jsonify(list_events())
+    return jsonify(list_events(g.user.id))
 
 
-@requires_user_auth
 @gis.route('/v1/events/<event_id>/interest', methods=["POST"])
+@requires_user_auth
 def notifiy_interest_endpoint(event_id):
     interested = get_required_value("interested")
     if interested:
@@ -22,7 +22,7 @@ def notifiy_interest_endpoint(event_id):
     return "OK", 200
 
 
-@requires_user_auth
 @gis.route('/v1/events/interests', methods=["GET"])
+@requires_user_auth
 def list_interests_endpoint():
     return jsonify(list_interests(g.user.id))

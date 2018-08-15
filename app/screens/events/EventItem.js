@@ -25,7 +25,20 @@ const ImageContainer = styled.View`
   height: 70px;
   width: 100px;
 `;
-const EventItem = ({ onPress, name, place_name, image_url }) => {
+const InterestContainer = styled.View`
+  width: 50;
+  height: 50;
+  align-items: center;
+  justify-content: center;
+`;
+const EventItem = ({
+  onPress,
+  name,
+  place_name,
+  image_url,
+  interested,
+  onInterestToggle,
+}) => {
   return (
     <Container onPress={onPress}>
       <ImageContainer>
@@ -34,12 +47,18 @@ const EventItem = ({ onPress, name, place_name, image_url }) => {
           style={{ maxHeight: '100%', height: '100%' }}
         />
       </ImageContainer>
-      <View>
+      <View style={{ maxWidth: 200 }}>
         <Body text={name} color="black" />
         <Caption text={place_name} color="black" />
       </View>
-
-      <MaterialIcons name="chevron-right" color={colors.lightPurple} />
+      <InterestContainer>
+        <MaterialIcons
+          onPress={onInterestToggle}
+          name={interested ? 'star' : 'star-border'}
+          color={interested ? '#fce42f' : colors.grey}
+          size={20}
+        />
+      </InterestContainer>
     </Container>
   );
 };

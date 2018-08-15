@@ -4,7 +4,7 @@ from api.models.user_models import User, EventInterest
 from api.util.exceptions import BadRequest
 
 
-def _event_place_to_json(event, place):
+def _event_place_to_json(event, place, interested):
     return dict(
         id=event.id,
         name=event.name,
@@ -13,16 +13,22 @@ def _event_place_to_json(event, place):
         description=event.description,
         image_url=event.image_url,
         place_id=event.place_id,
-        place_name=place.name
+        place_name=place.name,
+        interested=interested
     )
 
 
-#todo: pagination
-def list_events():
+# todo: pagination  x
+def list_events(user_id):
     with session_scope() as session:
-        data = session.query(Event, Place).filter(
+        subquery = session.query(EventInterest.event_id).filter(
+            EventInterest.user_id == user_id).subquery()
+        data = session.query(Event, Place, subquery.c.event_id).outerjoin(
+            subquery,
+            subquery.c.event_id == Event.id
+        ).filter(
             Event.place_id == Place.id).all()
-        return [_event_place_to_json(event, place) for event, place in data]
+        return [_event_place_to_json(event, place, event_interest is not None) for event, place, event_interest in data]
 
 
 def notify_interest(user_id, event_id):
@@ -53,4 +59,4 @@ def list_interests(user_id):
             EventInterest.user_id == user_id,
             EventInterest.event_id == Event.id,
             Event.place_id == Place.id).all()
-        return [_event_place_to_json(event, place) for event, place in data]
+        return [_event_place_to_json(event, place, True) for event, place in data]

@@ -34,18 +34,14 @@ def cached(region: str = None, ttl=_DEFAULT_CACHE_DURATION):
 
         def wrapper(*args, **kwargs):
             key = _cache_key(cache_region, *args, **kwargs)
-            print("using cache key {}".format(key))
             value = instance.get(key)
-            print("fetched {} from cache".format(value))
             if value is not None:
                 try:
                     res = pkl.loads(value)
-                    print(res)
                     return res
                 except pkl.PickleError:
                     # the object is probably coming from an earlier version of the api.
                     # we just drop the cache. not even necessary, but cleaner.
-                    print("pickle error :(")
                     instance.delete(key)
             # the object is not in the cache. We pickle it and add it to the cache
             value = f(*args, **kwargs)
