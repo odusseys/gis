@@ -3,10 +3,11 @@ import styled from 'styled-components';
 import { Image, View } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
-import { Caption, Body } from '../../library/text';
-import colors from '../../styles/colors';
+import { Caption, Body } from 'gis/library/text';
+import colors from 'gis/styles/colors';
 
 const Container = styled.TouchableOpacity`
+  max-width: 100%;
   flex-direction: row;
   align-self: stretch;
   align-items: center;

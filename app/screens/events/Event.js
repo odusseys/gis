@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import { Image, ScrollView } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
-import { Caption, Body, Title } from '../../library/text';
-import colors from '../../styles/colors';
+import { Caption, Body, Title } from 'gis/library/text';
+import colors from 'gis/styles/colors';
 
 const IconRowStyle = styled.View`
   flex-direction: row;

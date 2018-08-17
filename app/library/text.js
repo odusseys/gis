@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { StyleSheet, Text as RNText } from 'react-native';
-import { getLocaleString } from '../services/i18n';
-import colors from '../styles/colors';
+import { getLocaleString } from 'gis/services/i18n';
+import colors from 'gis/styles/colors';
 
 const getColor = color => colors[color] || color || colors.black;
 

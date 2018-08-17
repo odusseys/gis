@@ -1,4 +1,4 @@
-import api from '../api';
+import api from 'gis/api';
 
 const getEventGroup = e => {
   const date = Date.parse(e.start_date);

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Caption } from './text';
-import colors from '../styles/colors';
+import colors from 'gis/styles/colors';
+import { Caption } from 'gis/library/text';
 
 export const Button = styled.TouchableOpacity`
   flex-direction: row;

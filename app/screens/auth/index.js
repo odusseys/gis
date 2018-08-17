@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
-import { Title, Body } from '../../library/text';
-import { TextButton } from '../../library/buttons';
+import { Title, Body } from 'gis/library/text';
+import { TextButton } from 'gis/library/buttons';
 import PhoneInput from 'react-native-phone-input';
-import api from '../../api';
+import api from 'gis/api';
 
 const Container = styled.View`
   background-color: white;

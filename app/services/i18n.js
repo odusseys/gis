@@ -1,4 +1,4 @@
-import FR from '../i18n/FR.json';
+import FR from 'gis/i18n/FR.json';
 
 const DEFAULT_LOCALE = 'FR';
 

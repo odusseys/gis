@@ -1,18 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
-import { FlatList } from 'react-native';
+import { FlatList, ActivityIndicator } from 'react-native';
 
+import { getEvents } from 'gis/services/events';
+import { Title } from 'gis/library/text';
+import api from 'gis/api';
 import EventItem from './EventItem';
-import Async from '../../library/Async';
-import { getEvents } from '../../services/events';
-import { Title } from '../../library/text';
-import api from '../../api';
 
 const Container = styled.View`
   flex: 1;
   align-self: stretch;
   align-items: center;
   background-color: white;
+  max-width: 100%;
 `;
 
 export default class Events extends React.Component {
@@ -39,20 +39,24 @@ export default class Events extends React.Component {
     return (
       <Container>
         <Title name="EVENTS" style={{ marginBottom: 20 }} />
-        <FlatList
-          style={{ backgroundColor: 'white' }}
-          data={this.state.events.slice(0, 10)}
-          keyExtractor={e => e.id}
-          renderItem={({ item }) => {
-            return (
-              <EventItem
-                onInterestToggle={this.interestToggle(item)}
-                onPress={this.goToEvent(item)}
-                {...item}
-              />
-            );
-          }}
-        />
+        {this.state.loading ? (
+          <ActivityIndicator />
+        ) : (
+          <FlatList
+            style={{ backgroundColor: 'white', maxWidth: '100%' }}
+            data={this.state.events.slice(0, 10)}
+            keyExtractor={e => `${e.id}`}
+            renderItem={({ item }) => {
+              return (
+                <EventItem
+                  onInterestToggle={this.interestToggle(item)}
+                  onPress={this.goToEvent(item)}
+                  {...item}
+                />
+              );
+            }}
+          />
+        )}
       </Container>
     );
   }
