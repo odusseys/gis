@@ -4,10 +4,12 @@ import storage from 'redux-persist/lib/storage';
 
 import config from './config';
 import auth from './auth';
+import permissions from './permissions';
 
 const rootReducer = combineReducers({
   config,
   auth,
+  permissions,
 });
 
 const persistConfig = {

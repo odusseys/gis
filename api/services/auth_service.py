@@ -9,7 +9,7 @@ from random import randint
 from api.config import config
 from api.util.exceptions import Conflict, BadRequest, Unauthorized
 from api.clients.db import session_scope
-from api.models.user_models import User, UserContact
+from api.models.user_models import User
 from api.clients.redis import cached
 from api.clients.sms import post_message
 from api.util.requests import get_required_value
@@ -66,22 +66,6 @@ def hash_number(number):
     return m.hexdigest()
 
 
-# todo: actually do :/
-def _import_contacts_nt(session, user_id, contacts):
-    for contact in contacts:
-        try:
-            hashed_phone_number = hash_number(
-                normalize_number(contact["phone_number"]))
-            contact = UserContact(
-                user_id=user_id,
-                imported_name=contact["name"],
-                hashed_phone_number=hashed_phone_number
-            )
-            session.add(contact)
-        except NumberParseException:
-            continue
-
-
 @cached(region="phone-verification", ttl=300)
 def get_phone_verification_code(normalized_phone_number):
     return randint(100000, 999999)
@@ -113,7 +97,11 @@ def signup(name, phone_number, verification_code):
         user = session.query(User).filter(
             User.normalized_phone_number == normalized_phone_number).first()
         if user is not None:
-            raise Conflict("An user with this number exists.")
+            raise Conflict("PHONE_IN_USER")
+        user = session.query(User).filter(
+            User.name == name).first()
+        if user is not None:
+            raise Conflict("NAME_IN_USE")
         user = User(
             name=name,
             normalized_phone_number=normalized_phone_number

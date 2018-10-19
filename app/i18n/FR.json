@@ -10,5 +10,6 @@
   "ENTER_VALIDATION": "Entre le code de validation",
   "VALIDATE": "Valider",
   "LOGIN": "Se connecter",
-  "SIGNUP": "Me créer un compte"
+  "SIGNUP": "Me créer un compte",
+  "LOGOUT": "Déconnexion"
 }

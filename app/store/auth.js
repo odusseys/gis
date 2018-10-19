@@ -9,6 +9,8 @@ export default (
       return { ...state, name: action.name };
     case 'LOGIN':
       return { ...state, token: action.token, name: action.name };
+    case 'LOGOUT':
+      return {};
     default:
       return state;
   }
