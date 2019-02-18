@@ -35,12 +35,12 @@ def get_user_from_token(token):
         with session_scope() as session:
             user = session.query(User).filter(User.id == user_id).first()
             if user is None:
-                raise Unauthorized()
+                return None
             return user
     except DecodeError:
-        raise Unauthorized()
+        return None
     except KeyError:
-        raise Unauthorized()
+        return None
 
 
 def user_to_dict(user):
@@ -131,6 +131,9 @@ def requires_user_auth(f):
         token = get_required_value("token")
         if token is None:
             raise Unauthorized()
-        g.user = get_user_from_token(token)
+        user = get_user_from_token(token)
+        if user is None:
+            raise Unauthorized()
+        g.user = user
         return f(*x, **y)
     return wrap

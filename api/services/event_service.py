@@ -19,15 +19,20 @@ def _event_place_to_json(event, place, interested):
 
 
 # todo: pagination  x
-def list_events(user_id):
+def list_events(user):
     with session_scope() as session:
-        subquery = session.query(EventInterest.event_id).filter(
-            EventInterest.user_id == user_id).subquery()
-        data = session.query(Event, Place, subquery.c.event_id).outerjoin(
-            subquery,
-            subquery.c.event_id == Event.id
-        ).filter(
-            Event.place_id == Place.id).all()
+        if user is None:
+            data = session.query(Event, Place).filter(
+                Event.place_id == Place.id).all()
+            data = [(x, y, False) for (x, y) in data]
+        else:
+            subquery = session.query(EventInterest.event_id).filter(
+                EventInterest.user_id == user.id).subquery()
+            data = session.query(Event, Place, subquery.c.event_id).outerjoin(
+                subquery,
+                subquery.c.event_id == Event.id
+            ).filter(
+                Event.place_id == Place.id).all()
         return [_event_place_to_json(event, place, event_interest is not None) for event, place, event_interest in data]
 
 
