@@ -1,8 +1,8 @@
 from api.views import gis
 from flask import jsonify, g
-from api.services.event_service import list_events, notify_interest, cancel_interest, list_interests
+from api.services.app.event_service import list_events, notify_interest, cancel_interest, list_interests
 from api.util.requests import get_required_value, get_value
-from api.services.auth_service import requires_user_auth, get_user_from_token
+from api.services.app.auth_service import requires_user_auth, get_user_from_token
 
 
 @gis.route('/v1/events')

@@ -1,17 +1,15 @@
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
-from api.models import Base
+from .base import Base
 
 
 class Place(Base):
     __tablename__ = 'place'
-    id = Column(Integer, primary_key=True)
     name = Column(String(250))
     identifier = Column(String(250))
 
 
 class Event(Base):
     __tablename__ = 'event'
-    id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False)
     identifier = Column(String(250), nullable=False)
     description = Column(String(250), nullable=False, default="")

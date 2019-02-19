@@ -3,7 +3,7 @@ Utilities to access the main database
 """
 from flask_sqlalchemy import SQLAlchemy
 from contextlib import contextmanager
-from api.models import metadata
+from api.models.base import metadata
 
 db = SQLAlchemy(metadata=metadata)
 

@@ -1,6 +1,6 @@
 from api.views import gis
 from flask import jsonify
-from api.services.auth_service import signup, verification, login
+from api.services.app.auth_service import signup, verification, login
 from api.util.requests import get_required_value, get_value
 
 

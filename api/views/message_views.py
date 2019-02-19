@@ -1,8 +1,8 @@
 from api.views import gis
 from flask import jsonify, g
 from api.util.requests import get_required_value, get_value
-from api.services.auth_service import requires_user_auth
-from api.services.message_service import create_thread, invite_user, kick_user
+from api.services.app.auth_service import requires_user_auth
+from api.services.app.message_service import create_thread, invite_user, kick_user
 
 
 @gis.route('/v1/threads', methods=["POST"])
