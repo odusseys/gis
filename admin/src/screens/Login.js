@@ -1,8 +1,10 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import styled from "styled-components";
 import { TextInput } from "components/inputs";
 import InputLine from "components/InputLine";
 import { ColoredButton } from "components/buttons";
+import api from "api";
 
 const Container = styled.div`
   width: 100%;
@@ -10,9 +12,16 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
 `;
+
 const Form = styled.form`
   max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  & > button {
+    align-self: flex-end;
+  }
 `;
 
 class LoginScreen extends Component {
@@ -20,14 +29,19 @@ class LoginScreen extends Component {
     email: "",
     password: ""
   };
-  login = e => {
+  login = async e => {
+    const { email, password } = this.state;
     e.preventDefault();
-    console.log("login");
+    const payload = await api.auth.login({ email, password });
+    console.log(payload);
+    this.props.login(payload);
+    window.location = "/";
   };
   render() {
     const { email, password } = this.state;
     return (
       <Container>
+        <h1>kiki</h1>
         <Form onSubmit={this.login}>
           <InputLine label="Email">
             <TextInput
@@ -50,4 +64,11 @@ class LoginScreen extends Component {
   }
 }
 
-export default LoginScreen;
+const mapDispatchToProps = dispatch => ({
+  login: payload => dispatch({ type: "LOGIN", payload })
+});
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(LoginScreen);

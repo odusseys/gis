@@ -25,9 +25,9 @@ class Router extends React.Component {
     return (
       <BrowserRouter>
         <Switch>
-          <Route exact path="/login" component={Login} />
+          <Route exact path="/admin/login" component={Login} />
           <AuthRoute exact path="/" component={Home} />
-          <Redirect to="/login" />
+          <Redirect to="/admin/login" />
         </Switch>
       </BrowserRouter>
     );

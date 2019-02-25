@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import styled from "styled-components";
+import { PersistGate } from "redux-persist/es/integration/react";
 import Router from "./router";
-import { Provider } from "store";
+import { Provider, persistor } from "store";
 
 const Container = styled.div`
   position: fixed;
@@ -17,7 +18,9 @@ class App extends Component {
     return (
       <Container>
         <Provider>
-          <Router />
+          <PersistGate persistor={persistor}>
+            <Router />
+          </PersistGate>
         </Provider>
       </Container>
     );

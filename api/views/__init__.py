@@ -16,3 +16,4 @@ def handle_api_error(error):
 
 if True:
     from .app import *
+    from .admin import *
