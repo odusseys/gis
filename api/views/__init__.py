@@ -1,4 +1,4 @@
-from flask import Blueprint
+from flask import Blueprint, jsonify
 from api.util.exceptions import APIError
 import logging
 
@@ -14,5 +14,5 @@ def handle_api_error(error):
     return response
 
 
-from api.views.event_views import *
-from api.views.auth_views import *
+if True:
+    from .app import *
