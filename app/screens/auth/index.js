@@ -1,10 +1,11 @@
-import React from 'react';
-import styled from 'styled-components';
-import { connect } from 'react-redux';
-import { Title, Body } from 'gis/library/text';
-import { TextButton } from 'gis/library/buttons';
-import PhoneInput from 'react-native-phone-input';
-import api from 'gis/api';
+import React from "react";
+import styled from "styled-components";
+import { connect } from "react-redux";
+import { Title, Body } from "gis/library/text";
+import { TextButton } from "gis/library/buttons";
+import PhoneInput from "react-native-phone-input";
+import api from "gis/api";
+import BaseScreen from "screens/BaseScreen";
 
 const Container = styled.View`
   background-color: white;
@@ -43,7 +44,7 @@ class Signup extends React.Component {
   state = {
     verificationSent: false,
     isSignup: true,
-    verificationCode: '',
+    verificationCode: ""
   };
 
   sendValidationRequest = async () => {
@@ -51,7 +52,7 @@ class Signup extends React.Component {
       ? api.auth.signupVerification
       : api.auth.loginVerification;
     await verification({
-      phone_number: { number: this.props.phoneNumber },
+      phone_number: { number: this.props.phoneNumber }
     });
     this.setState({ verificationSent: true });
   };
@@ -62,17 +63,17 @@ class Signup extends React.Component {
       res = await api.auth.signup({
         phone_number: { number: this.props.phoneNumber },
         name: this.props.name,
-        verification_code: this.state.verificationCode,
+        verification_code: this.state.verificationCode
       });
     } else {
       res = await api.auth.login({
         phone_number: { number: this.props.phoneNumber },
-        verification_code: this.state.verificationCode,
+        verification_code: this.state.verificationCode
       });
     }
-    console.warn('result is: ', res);
-    this.props.dispatch({ type: 'LOGIN', ...res });
-    this.props.navigation.navigate('Home');
+    console.warn("result is: ", res);
+    this.props.dispatch({ type: "LOGIN", ...res });
+    this.props.navigation.navigate("Home");
   };
 
   renderBeforeValidation = () => {
@@ -82,7 +83,7 @@ class Signup extends React.Component {
       <Container>
         <Title name="WELCOME" />
         <Body
-          name={isSignup ? 'FIRST_SIGNUP' : 'LOGIN'}
+          name={isSignup ? "FIRST_SIGNUP" : "LOGIN"}
           style={{ marginTop: 10 }}
         />
         <Form>
@@ -90,8 +91,8 @@ class Signup extends React.Component {
             <FormLine>
               <Body name="PICK_NAME" />
               <Input
-                value={name || ''}
-                onChangeText={e => dispatch({ type: 'SET_NAME', name: e })}
+                value={name || ""}
+                onChangeText={e => dispatch({ type: "SET_NAME", name: e })}
               />
             </FormLine>
           )}
@@ -100,8 +101,8 @@ class Signup extends React.Component {
             initialCountry="fr"
             onChangePhoneNumber={number => {
               this.props.dispatch({
-                type: 'SET_PHONE_NUMBER',
-                phoneNumber: number,
+                type: "SET_PHONE_NUMBER",
+                phoneNumber: number
               });
             }}
           />
@@ -111,7 +112,7 @@ class Signup extends React.Component {
             onPress={this.sendValidationRequest}
           />
           <ToggleLink onPress={() => this.setState({ isSignup: !isSignup })}>
-            <Body name={isSignup ? 'LOGIN' : 'SIGNUP'} />
+            <Body name={isSignup ? "LOGIN" : "SIGNUP"} />
           </ToggleLink>
         </Form>
       </Container>
@@ -151,7 +152,7 @@ class Signup extends React.Component {
 const mapper = ({ auth }) => ({
   phoneNumber: auth.phoneNumber,
   name: auth.name,
-  token: auth.token,
+  token: auth.token
 });
 
-export default connect(mapper)(Signup);
+export default BaseScreen(connect(mapper)(Signup));

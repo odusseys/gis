@@ -24,7 +24,7 @@ def list_events(user):
         if user is None:
             data = session.query(Event, Place).filter(
                 Event.place_id == Place.id).all()
-            data = [(x, y, False) for (x, y) in data]
+            data = [(x, y, None) for (x, y) in data]
         else:
             subquery = session.query(EventInterest.event_id).filter(
                 EventInterest.user_id == user.id).subquery()

@@ -1,8 +1,8 @@
-import axios from 'axios';
-import store from './store';
+import axios from "axios";
+import store from "./store";
 
 const client = axios.create({
-  baseURL: 'http://127.0.0.1:5000',
+  baseURL: "http://192.168.0.39:5000"
 });
 
 const withAuth = params => ({ ...params, token: store.getState().auth.token });
@@ -17,16 +17,16 @@ const post = async (endpoint, data = {}) => {
 
 const api = {
   events: {
-    list: () => get('/v1/events'),
+    list: () => get("/v1/events"),
     interested: ({ event_id, interested }) =>
-      post(`/v1/events/${event_id}/interest`, { interested }),
+      post(`/v1/events/${event_id}/interest`, { interested })
   },
   auth: {
-    signupVerification: data => post('/v1/auth/signup/verification', data),
-    signup: data => post('/v1/auth/signup', data),
-    loginVerification: data => post('/v1/auth/login/verification', data),
-    login: data => post('/v1/auth/login', data),
-  },
+    signupVerification: data => post("/v1/auth/signup/verification", data),
+    signup: data => post("/v1/auth/signup", data),
+    loginVerification: data => post("/v1/auth/login/verification", data),
+    login: data => post("/v1/auth/login", data)
+  }
 };
 
 export default api;

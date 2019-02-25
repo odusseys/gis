@@ -1,10 +1,11 @@
-import React from 'react';
-import styled from 'styled-components';
-import { Image, ScrollView } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
+import React from "react";
+import styled from "styled-components";
+import { Image, ScrollView } from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
 
-import { Caption, Body, Title } from 'gis/library/text';
-import colors from 'gis/styles/colors';
+import { Caption, Body, Title } from "gis/library/text";
+import colors from "gis/styles/colors";
+import BaseScreen from "gis/screens/BaseScreen";
 
 const IconRowStyle = styled.View`
   flex-direction: row;
@@ -18,11 +19,12 @@ const IconRow = ({ name, text }) => {
   );
 };
 
-const Container = styled.View`
+const Container = styled.ScrollView`
   flex: 1;
-  align-items: center;
+  width: 100%;
   background-color: ${colors.white};
 `;
+
 const ImageContainer = styled.View`
   max-width: 200px;
   max-height: 140px;
@@ -30,6 +32,7 @@ const ImageContainer = styled.View`
   width: 200;
   margin-bottom: 20px;
 `;
+
 const Event = ({
   onPress,
   name,
@@ -37,26 +40,27 @@ const Event = ({
   image_url,
   description,
   start_date,
-  end_date,
+  end_date
 }) => {
   return (
-    <Container onPress={onPress}>
-      <ScrollView>
-        <ImageContainer>
-          <Image
-            source={{ uri: image_url }}
-            style={{ maxHeight: '100%', height: '100%' }}
-          />
-        </ImageContainer>
-        <Title text={name} color="black" />
-        <IconRow
-          name="location-on"
-          text={<Caption text={place_name} color="black" />}
+    <Container
+      onPress={onPress}
+      contentContainerStyle={{ alignItems: "center" }}
+    >
+      <ImageContainer>
+        <Image
+          source={{ uri: image_url }}
+          style={{ maxHeight: "100%", height: "100%" }}
         />
-        <Caption text={start_date} color="black" />
-        <Caption text={end_date} color="black" />
-        <Body text={description} color="black" />
-      </ScrollView>
+      </ImageContainer>
+      <Title text={name} color="black" />
+      <IconRow
+        name="location-on"
+        text={<Caption text={place_name} color="black" />}
+      />
+      <Caption text={start_date} color="black" />
+      <Caption text={end_date} color="black" />
+      <Body text={description} color="black" />
     </Container>
   );
 };
@@ -65,4 +69,4 @@ const EventScreen = ({ navigation }) => {
   return <Event {...navigation.state.params} />;
 };
 
-export default EventScreen;
+export default BaseScreen(EventScreen);

@@ -1,7 +1,8 @@
-import React from 'react';
-import styled from 'styled-components';
-import { connect } from 'react-redux';
-import { TextButton } from 'gis/library/buttons';
+import React from "react";
+import styled from "styled-components";
+import { connect } from "react-redux";
+import { TextButton } from "gis/library/buttons";
+import BaseScreen from "screens/BaseScreen";
 
 const Container = styled.View`
   flex: 1;
@@ -17,15 +18,25 @@ class Settings extends React.Component {
   render() {
     return (
       <Container>
-        <TextButton name="LOGOUT" onPress={this.logout} />
+        {this.props.connected && (
+          <TextButton name="LOGOUT" onPress={this.logout} />
+        )}
       </Container>
     );
   }
 }
 
-export default connect(
-  null,
-  dispatch => ({
-    logout: () => dispatch({ type: 'LOGOUT' }),
-  }),
-)(Settings);
+const mapStateToProps = ({ auth }) => ({
+  connected: !!auth.token
+});
+
+const mapDispatchToProps = dispatch => ({
+  logout: () => dispatch({ type: "LOGOUT" })
+});
+
+export default BaseScreen(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Settings)
+);

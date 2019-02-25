@@ -1,8 +1,8 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { StyleSheet, Text as RNText } from 'react-native';
-import { getLocaleString } from 'gis/services/i18n';
-import colors from 'gis/styles/colors';
+import React from "react";
+import { connect } from "react-redux";
+import { StyleSheet, Text as RNText } from "react-native";
+import { getLocaleString } from "gis/services/i18n";
+import colors from "gis/styles/colors";
 
 const getColor = color => colors[color] || color || colors.black;
 
@@ -18,8 +18,8 @@ export const Text = ({
   return (
     <RNText
       style={StyleSheet.flatten([
-        { color: getColor(color), backgroundColor: 'rgba(0,0,0,0)' },
-        style,
+        { color: getColor(color), backgroundColor: "rgba(0,0,0,0)" },
+        style
       ])}
       {...rest}
     >
@@ -29,7 +29,7 @@ export const Text = ({
 };
 
 const LocaleText = connect(state => ({ language: state.config.language }))(
-  Text,
+  Text
 );
 
 const styledText = textStyle => ({ style, ...rest }) => (
@@ -38,20 +38,20 @@ const styledText = textStyle => ({ style, ...rest }) => (
 
 const styles = StyleSheet.create({
   smallText: {
-    fontSize: 8,
+    fontSize: 8
   },
   caption: {
-    fontSize: 10,
+    fontSize: 10
   },
   body: {
-    fontSize: 12,
+    fontSize: 12
   },
   subtitle: {
-    fontSize: 16,
+    fontSize: 16
   },
   title: {
-    fontSize: 18,
-  },
+    fontSize: 18
+  }
 });
 
 export const Caption = styledText(styles.caption);

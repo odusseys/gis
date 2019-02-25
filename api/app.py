@@ -10,5 +10,6 @@ def create_app():
     app.register_blueprint(gis)
     with app.app_context():
         db.init_app(app)
+        db.app = app
         db.create_all()
     return app

@@ -10,3 +10,4 @@ phonenumbers==8.9.4
 PyJWT==1.6.1
 redis==2.10.6
 boto3==1.7.17
+ipython==7.3.0

@@ -1,10 +1,10 @@
-import React from 'react';
-import styled from 'styled-components';
-import { Image, View } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
+import React from "react";
+import styled from "styled-components";
+import { Image, View } from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
 
-import { Caption, Body } from 'gis/library/text';
-import colors from 'gis/styles/colors';
+import { Caption, Body } from "gis/library/text";
+import colors from "gis/styles/colors";
 
 const Container = styled.TouchableOpacity`
   max-width: 100%;
@@ -18,6 +18,7 @@ const Container = styled.TouchableOpacity`
   shadow-color: black;
   shadow-opacity: 0.2;
   shadow-offset: 1px 1px;
+  elevation: 1;
   background-color: ${colors.white};
 `;
 const ImageContainer = styled.View`
@@ -38,14 +39,14 @@ const EventItem = ({
   place_name,
   image_url,
   interested,
-  onInterestToggle,
+  onInterestToggle
 }) => {
   return (
     <Container onPress={onPress}>
       <ImageContainer>
         <Image
           source={{ uri: image_url }}
-          style={{ maxHeight: '100%', height: '100%' }}
+          style={{ maxHeight: "100%", height: "100%" }}
         />
       </ImageContainer>
       <View style={{ maxWidth: 200 }}>
@@ -55,8 +56,8 @@ const EventItem = ({
       <InterestContainer>
         <MaterialIcons
           onPress={onInterestToggle}
-          name={interested ? 'star' : 'star-border'}
-          color={interested ? '#fce42f' : colors.grey}
+          name={interested ? "star" : "star-border"}
+          color={interested ? colors.yellow : colors.grey}
           size={20}
         />
       </InterestContainer>
