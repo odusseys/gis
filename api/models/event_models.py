@@ -17,3 +17,4 @@ class Event(Base):
     start_date = Column(DateTime(250), nullable=False)
     end_date = Column(DateTime(250), nullable=True)
     place_id = Column(Integer, ForeignKey(Place.id))
+    facebook_event_url = Column(String(500), nullable=False)

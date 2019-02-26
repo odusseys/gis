@@ -55,10 +55,12 @@ def admin_auth(f):
             raise Unauthorized(payload="INVALID_AUTHORIZATION_HEADER")
         token = match.group(1)
         try:
-            payload = jwt.decode(token, ADMIN_JWT_SECRET, algorithms=['HS256'])
-        except jwt.exceptions.PyJWTError:
+            payload = jwt.decode(
+                token, config['ADMIN_AUTH_SECRET'], algorithms=['HS256'])
+        except Exception:
+            LOGGER.exception("auth error")
             raise Unauthorized(payload="INVALID_TOKEN_FORMAT")
-        if "account_id" not in payload:
+        if "user_id" not in payload:
             raise Unauthorized(payload="INVALID_TOKEN")
 
         return f(*args, **kwargs)

@@ -27,3 +27,8 @@ class Unauthorized(APIError):
 class Forbidden(APIError):
     def __init__(self, payload=None):
         APIError.__init__(self, 403, "Forbidden", payload)
+
+
+class NotFound(APIError):
+    def __init__(self, payload=None):
+        APIError.__init__(self, 404, "NotFound", payload)
