@@ -1,10 +1,39 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+import colors from "styles/colors";
 
 const Container = styled.div``;
 
 const EventContainer = styled.div`
   display: flex;
+  align-items: center;
+  padding: 8px;
+  cursor: pointer;
+  & > * {
+    margin-right: 12px;
+  }
+  &:hover {
+    background-color: ${colors.lightGrey};
+  }
+  ${p =>
+    p.selected &&
+    css`
+      background-color: ${colors.lightYellow};
+      &:hover {
+        background-color: ${colors.lightYellow};
+      }
+    `}
+`;
+
+const EventBadge = styled.div`
+  max-width: 80px;
+  width: 80px;
+  max-height: 50px;
+  height: 50px;
+  & > img {
+    max-height: 100%;
+    max-width: 100%;
+  }
 `;
 
 const Event = ({
@@ -14,18 +43,38 @@ const Event = ({
   image_url,
   facebook_event_url,
   start_date,
-  end_date
+  end_date,
+  onClick,
+  selected
 }) => {
-  return <EventContainer>{name}</EventContainer>;
+  return (
+    <EventContainer onClick={onClick} selected={selected}>
+      <EventBadge>
+        <img alt="event badge" src={image_url} />
+      </EventBadge>
+      <span>{name}</span>
+      <span>{description}</span>
+      <span>
+        {start_date} - {end_date}
+      </span>
+    </EventContainer>
+  );
 };
 
 class EventListing extends React.Component {
   state = {};
   render() {
+    const { events, onEventSelect, selectedEvent } = this.props;
+    console.log(events);
     return (
       <Container>
-        {this.props.events.map(e => (
-          <Event key={e.id} event={e} />
+        {events.map(e => (
+          <Event
+            key={e.id}
+            {...e}
+            onClick={() => onEventSelect(e)}
+            selected={selectedEvent && selectedEvent.id === e.id}
+          />
         ))}
       </Container>
     );
