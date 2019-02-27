@@ -33,7 +33,6 @@ class LoginScreen extends Component {
     const { email, password } = this.state;
     e.preventDefault();
     const payload = await api.auth.login({ email, password });
-    console.log(payload);
     this.props.login(payload);
     window.location = "/";
   };

@@ -47,6 +47,12 @@ class Home extends Component {
     this.setState({ events, places });
   };
 
+  createPlace = async p => {
+    await api.places.create(p);
+    const places = await api.places.list();
+    this.setState({ places });
+  };
+
   render() {
     const { isSuperAdmin, logout } = this.props;
     const { events, selectedEvent, places } = this.state;
@@ -75,6 +81,7 @@ class Home extends Component {
               mode={selectedEvent ? "edit" : "create"}
               places={places}
               defaultValue={selectedEvent}
+              onCreatePlace={this.createPlace}
               onSubmit={console.warn}
             />
             {selectedEvent && (

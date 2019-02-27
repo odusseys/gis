@@ -8,6 +8,8 @@ export const Button = styled.button`
   display: flex;
   align-items: center;
   padding: 0 12px;
+  cursor: pointer;
+  box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, 0.29);
 `;
 
 export const ColoredButton = styled(Button)`

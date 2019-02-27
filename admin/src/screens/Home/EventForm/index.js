@@ -4,10 +4,19 @@ import InputLine from "components/InputLine";
 import { TextInput } from "components/inputs";
 import { DateInput } from "@blueprintjs/datetime";
 import moment from "moment";
+import { ColoredButton } from "components/buttons";
+import PlaceSelector from "./PlaceSelector";
+import PlaceCreationDialog from "./PlaceCreationDialog";
 
 const DATE_FORMAT = "DD/MM/YYYY HH:mm:ss";
 
-const Form = styled.form``;
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  & > button {
+    align-self: flex-end;
+  }
+`;
 
 const DateTimePicker = ({ value, onChange }) => {
   return (
@@ -22,11 +31,18 @@ const DateTimePicker = ({ value, onChange }) => {
 };
 
 class EventForm extends Component {
-  state = { ...(this.props.defaultValue || {}) };
+  state = {
+    ...(this.props.defaultValue || {}),
+    showPlaceCreationDialog: false
+  };
   setField = name => e => this.setState({ [name]: e.target.value });
   submit = e => {
     e.preventDefault();
     this.props.onSubmit(this.state);
+  };
+  createPlace = async p => {
+    await this.props.onCreatePlace(p);
+    this.setState({ showPlaceCreationDialog: false });
   };
   render() {
     const {
@@ -36,11 +52,12 @@ class EventForm extends Component {
       end_date,
       facebook_event_url,
       image_url,
-      place_id
+      place_id,
+      showPlaceCreationDialog
     } = this.state;
     const { mode, places } = this.props;
     return (
-      <Form>
+      <Form onSubmit={this.submit}>
         <InputLine label="Event name">
           <TextInput
             value={name || ""}
@@ -79,6 +96,20 @@ class EventForm extends Component {
             onChange={d => this.setState({ end_date: d })}
           />
         </InputLine>
+        <PlaceSelector
+          place_id={place_id}
+          places={places}
+          onSelect={p => this.setState({ place_id: p.id })}
+          onCreate={() => this.setState({ showPlaceCreationDialog: true })}
+        />
+        <ColoredButton>{mode === "edit" ? "Save" : "Create"}</ColoredButton>
+        {showPlaceCreationDialog && (
+          <PlaceCreationDialog
+            onClose={() => this.setState({ showPlaceCreationDialog: false })}
+            onSubmit={this.createPlace}
+            isOpen
+          />
+        )}
       </Form>
     );
   }

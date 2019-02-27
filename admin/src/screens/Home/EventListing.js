@@ -65,7 +65,6 @@ class EventListing extends React.Component {
   state = {};
   render() {
     const { events, onEventSelect, selectedEvent } = this.props;
-    console.log(events);
     return (
       <Container>
         {events.map(e => (
