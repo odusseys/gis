@@ -23,25 +23,28 @@ def _event_to_dict(e: Event, p: Place):
         place_id=e.place_id,
         place_name=p.name,
         image_url=e.image_url,
-        facebook_event_url=e.facebook_event_url
+        facebook_event_url=e.facebook_event_url,
+        ticket_service_url=e.ticket_service_url
     )
 
 
-def create_event(name, description, start_date, end_date, place_id, image_url, facebook_event_url):
+def create_event(name, description, start_date, end_date, place_id, image_url, facebook_event_url, ticket_service_url):
     with session_scope() as session:
         event = Event(name=name,
                       identifier=_event_identifier(start_date, name),
                       description=description,
                       image_url=image_url,
                       facebook_event_url=facebook_event_url,
+                      ticket_service_url=ticket_service_url,
                       start_date=start_date,
                       end_date=end_date,
                       place_id=place_id)
         session.add(event)
         session.flush()
+        return _event_to_dict(event, session.query(Place).filter(Place.id == place_id).first())
 
 
-def update_event(id, name, description, start_date, end_date, place_id, image_url, facebook_event_url):
+def update_event(id, name, description, start_date, end_date, place_id, image_url, facebook_event_url, ticket_service_url):
     with session_scope() as session:
         event = session.query(Event).filter(Event.id == id).first()
         if event is None:
@@ -53,6 +56,8 @@ def update_event(id, name, description, start_date, end_date, place_id, image_ur
         event.place_id = place_id
         event.image_url = image_url
         event.facebook_event_url = facebook_event_url
+        event.ticket_service_url = ticket_service_url
+        return _event_to_dict(event, session.query(Place).filter(Place.id == place_id).first())
 
 
 def list_upcoming_events():

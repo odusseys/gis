@@ -9,22 +9,23 @@ from api.services.admin.admin_auth_service import admin_auth
 @gis.route('/admin/events', methods=["POST"])
 @admin_auth
 def create_event_endpoint():
-    create_event(
+    res = create_event(
         get_required_value("name"),
         get_value("description"),
         get_required_value("start_date"),
         get_required_value("end_date"),
         get_required_value("place_id"),
         get_value("image_url"),
-        get_value("facebook_event_url")
+        get_value("facebook_event_url"),
+        get_value("ticket_service_url")
     )
-    return "OK"
+    return jsonify(res)
 
 
 @gis.route('/admin/events/<int:id>', methods=["PUT"])
 @admin_auth
 def update_event_endpoint(id):
-    update_event(
+    res = update_event(
         id,
         get_required_value("name"),
         get_value("description"),
@@ -32,9 +33,10 @@ def update_event_endpoint(id):
         get_required_value("end_date"),
         get_required_value("place_id"),
         get_value("image_url"),
-        get_value("facebook_event_url")
+        get_value("facebook_event_url"),
+        get_value("ticket_service_url")
     )
-    return "OK"
+    return jsonify(res)
 
 
 @gis.route('/admin/events', methods=["GET"])
@@ -46,8 +48,9 @@ def list_event_endpoint():
 @gis.route('/admin/places', methods=["POST"])
 @admin_auth
 def create_place_endpoint():
-    create_place(get_required_value("name"))
-    return "OK"
+    res = create_place(get_required_value("name"), get_value(
+        "address"), get_value("website_url"))
+    return jsonify(res)
 
 
 @gis.route('/admin/places', methods=["GET"])

@@ -6,6 +6,8 @@ class Place(Base):
     __tablename__ = 'place'
     name = Column(String(250))
     identifier = Column(String(250))
+    address = Column(String(500))
+    website_url = Column(String(500))
 
 
 class Event(Base):
@@ -15,6 +17,7 @@ class Event(Base):
     description = Column(String(250), nullable=False, default="")
     image_url = Column(String(250), nullable=True)
     start_date = Column(DateTime(250), nullable=False)
-    end_date = Column(DateTime(250), nullable=True)
+    end_date = Column(DateTime(250), nullable=False)
     place_id = Column(Integer, ForeignKey(Place.id))
-    facebook_event_url = Column(String(500), nullable=False)
+    facebook_event_url = Column(String(500), nullable=True)
+    ticket_service_url = Column(String(500), nullable=True)

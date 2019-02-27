@@ -1,6 +1,9 @@
 import React from "react";
 import styled, { css } from "styled-components";
 import colors from "styles/colors";
+import moment from "moment";
+
+const formatDate = d => moment(d).format("MMM Do YY HH:mm");
 
 const Container = styled.div``;
 
@@ -55,7 +58,7 @@ const Event = ({
       <span>{name}</span>
       <span>{description}</span>
       <span>
-        {start_date} - {end_date}
+        {formatDate(start_date)} - {formatDate(end_date)}
       </span>
     </EventContainer>
   );

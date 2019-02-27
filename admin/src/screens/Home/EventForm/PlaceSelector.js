@@ -21,7 +21,7 @@ const PlaceSelector = ({ place_id, places, onSelect, onCreate }) => {
     <Select
       items={places}
       itemPredicate={(q, p) => {
-        return p.name.includes(q);
+        return p.name.toLowerCase().includes(q.toLowerCase());
       }}
       itemRenderer={renderPlaceOption}
       onItemSelect={onSelect}

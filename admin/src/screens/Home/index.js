@@ -53,6 +53,16 @@ class Home extends Component {
     this.setState({ places });
   };
 
+  onFormSubmit = async data => {
+    const endpoint =
+      this.mode() === "create" ? api.events.create : api.events.update;
+    await endpoint(data);
+    const events = await api.events.list();
+    this.setState({ events });
+  };
+
+  mode = () => (this.state.selectedEvent ? "edit" : "create");
+
   render() {
     const { isSuperAdmin, logout } = this.props;
     const { events, selectedEvent, places } = this.state;
@@ -78,11 +88,11 @@ class Home extends Component {
             <h4>{selectedEvent ? "Edit event" : "Create event"}</h4>
             <EventForm
               key={selectedEvent && selectedEvent.id}
-              mode={selectedEvent ? "edit" : "create"}
+              mode={this.mode()}
               places={places}
               defaultValue={selectedEvent}
               onCreatePlace={this.createPlace}
-              onSubmit={console.warn}
+              onSubmit={this.onFormSubmit}
             />
             {selectedEvent && (
               <Button

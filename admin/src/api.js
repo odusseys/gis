@@ -31,7 +31,7 @@ const api = {
   },
   events: {
     create: data => post("/admin/events", data),
-    update: ({ id, ...rest }) => put(`/admin/places/${id}`, rest),
+    update: ({ id, ...rest }) => put(`/admin/events/${id}`, rest),
     list: () => get("/admin/events")
   }
 };

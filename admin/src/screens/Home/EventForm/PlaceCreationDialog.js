@@ -15,7 +15,7 @@ const Form = styled.form`
 `;
 
 class PlaceCreationDialog extends Component {
-  state = { name: "", address: "" };
+  state = { name: "", address: "", website_url: "" };
 
   render() {
     const { isOpen, onSubmit, onClose } = this.props;
@@ -37,6 +37,12 @@ class PlaceCreationDialog extends Component {
             <TextInput
               value={this.state.address}
               onChange={e => this.setState({ address: e.target.value })}
+            />
+          </InputLine>
+          <InputLine label="Website Url">
+            <TextInput
+              value={this.state.website_url}
+              onChange={e => this.setState({ website_url: e.target.value })}
             />
           </InputLine>
           <ColoredButton>Create</ColoredButton>
