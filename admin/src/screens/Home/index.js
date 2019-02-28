@@ -50,16 +50,24 @@ class Home extends Component {
 
   createPlace = async p => {
     await api.places.create(p);
-    const places = await api.places.list();
-    this.setState({ places });
+    await this.fetchEvents();
   };
 
   onFormSubmit = async data => {
     const endpoint =
       this.mode() === "create" ? api.events.create : api.events.update;
     await endpoint(data);
-    const events = await api.events.list();
-    this.setState({ events });
+    await this.fetchEvents();
+  };
+
+  onDelete = async d => {
+    await api.events.delete(d);
+    await this.fetchEvents();
+  };
+
+  onActiveToggle = async d => {
+    await api.events.toggle(d);
+    await this.fetchEvents();
   };
 
   mode = () => (this.state.selectedEvent ? "edit" : "create");
@@ -83,6 +91,8 @@ class Home extends Component {
               events={events}
               selectedEvent={selectedEvent}
               onEventSelect={e => this.setState({ selectedEvent: e })}
+              onDelete={this.onDelete}
+              onActiveToggle={this.onActiveToggle}
             />
           </Pane>
           <Pane>

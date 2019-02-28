@@ -24,7 +24,8 @@ def _event_to_dict(e: Event, p: Place):
         place_name=p.name,
         image_url=e.image_url,
         facebook_event_url=e.facebook_event_url,
-        ticket_service_url=e.ticket_service_url
+        ticket_service_url=e.ticket_service_url,
+        active=e.active
     )
 
 
@@ -60,10 +61,31 @@ def update_event(id, name, description, start_date, end_date, place_id, image_ur
         return _event_to_dict(event, session.query(Place).filter(Place.id == place_id).first())
 
 
-def list_upcoming_events():
+def list_upcoming_events(show_inactive):
     with session_scope() as session:
-        res = session.query(Event, Place).filter(
-            Event.start_date > datetime.now(),
+        query = session.query(Event, Place).filter(
+            Event.end_date > datetime.now(),
             Event.place_id == Place.id
-        ).all()
+        )
+        if not show_inactive:
+            query = query.filter(Event.active)
+        query = query.order_by(Event.start_date)
+        res = query.all()
         return [_event_to_dict(e, p) for e, p in res]
+
+
+def toggle_event(event_id, active):
+    with session_scope() as session:
+        event = session.query(Event).filter(Event.id == event_id).first()
+        if event is None:
+            raise NotFound()
+        event.active = active
+        return _event_to_dict(event, session.query(Place).filter(Place.id == event.place_id).first())
+
+
+def delete_event(event_id):
+    with session_scope() as session:
+        event = session.query(Event).filter(Event.id == event_id).first()
+        if event is None:
+            raise NotFound()
+        session.delete(event)
