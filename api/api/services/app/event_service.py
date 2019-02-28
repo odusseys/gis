@@ -2,6 +2,7 @@ from api.clients.db import db, session_scope
 from api.models.event_models import Event, Place
 from api.models.user_models import User, EventInterest
 from api.util.exceptions import BadRequest
+from datetime import datetime, timedelta
 
 
 def _event_place_to_json(event, place, interested):
@@ -21,18 +22,12 @@ def _event_place_to_json(event, place, interested):
 # todo: pagination  x
 def list_events(user):
     with session_scope() as session:
-        if user is None:
-            data = session.query(Event, Place).filter(
-                Event.place_id == Place.id).all()
-            data = [(x, y, None) for (x, y) in data]
-        else:
-            subquery = session.query(EventInterest.event_id).filter(
-                EventInterest.user_id == user.id).subquery()
-            data = session.query(Event, Place, subquery.c.event_id).outerjoin(
-                subquery,
-                subquery.c.event_id == Event.id
-            ).filter(
-                Event.place_id == Place.id).all()
+        data = session.query(Event, Place).filter(
+            Event.place_id == Place.id,
+            Event.end_date > datetime.now(),
+            Event.start_date < datetime.now() + timedelta(days=61)).all()
+        data = [(x, y, None) for (x, y) in data]
+
         return [_event_place_to_json(event, place, event_interest is not None) for event, place, event_interest in data]
 
 

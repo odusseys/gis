@@ -52,7 +52,7 @@ class Event extends React.Component {
       name,
       description,
       image_url,
-      facebook_event_url,
+      // facebook_event_url,
       start_date,
       end_date,
       active
