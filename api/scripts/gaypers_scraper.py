@@ -1,20 +1,32 @@
 import requests
 import asyncio
 import os
+import pytz
 import concurrent
+import logging
 from dateutil.parser import parse
 from bs4 import BeautifulSoup
 from api.models import Event, Place
 from unidecode import unidecode
 from sqlalchemy.orm.session import sessionmaker
 from sqlalchemy import create_engine
+from datetime import datetime, timedelta
+from api.config import config
+import api.clients.db
 
 URL = "https://gaypers.com"
 
-page = requests.get(URL + "/Paris").text
+DATE_LIMIT = datetime.now() + timedelta(days=61)
 
-soup = BeautifulSoup(page, "html.parser")
 
+def get_page_soup(url):
+    req = requests.get(url)
+    req.encoding = "utf-8"
+    page = req.text
+    return BeautifulSoup(page, "html5lib")
+
+
+soup = get_page_soup(URL + "/en/Paris")
 cards = soup.find_all(class_="col-lg-3 col-md-4 col-sm-6 col-xs-6")
 links = ["{}{}".format(URL, c.a["href"]) for c in cards]
 
@@ -24,9 +36,10 @@ def to_slug(s):
 
 
 class ScrapeResult:
-    def __init__(self, name, place, image_url, start_time, end_time, description):
+    def __init__(self, name, place, place_address, image_url, start_time, end_time, description):
         self.name = name
         self.place = place
+        self.place_address = place_address
         self.image_url = image_url
         self.start_time = start_time
         self.end_time = end_time
@@ -37,60 +50,62 @@ class ScrapeResult:
     def is_valid(self):
         return self.name is not None and self.place is not None and self.start_time is not None
 
+    def __repr__(self):
+        return f"ScrapeResult({self.name}, {self.place}, {self.place_address}, {self.start_time}, {self.end_time})"
+
+
+def parse_time(t):
+    r = parse(t)
+    r = r.replace(tzinfo=pytz.timezone("Europe/Paris"))
+    return r
+
 
 def scrape_event(url):
     try:
-        event_page = requests.get(url).text
-        soup = BeautifulSoup(event_page, "html.parser")
-
+        soup = get_page_soup(url)
         title = soup.find(id="h1col1").string
         image_url = soup.find(class_="img-responsive")["src"]
-        details = list(soup.find(class_="det").contents)
+        details = list(soup.find(class_="det").find_all('tr'))
+        times = list(details[0].find_all('td')[1].strings)
+        start_time = parse_time(times[0])
+        end_time = parse_time(times[1][2:])
+        place = details[1].find_all("td")[1].string
         try:
-            times = list(details[0].find_all('td')[1].strings)
-            try:
-                start_time = parse(times[0])
-            except:
-                start_time = None
-            try:
-                end_time = parse(times[1][2:])
-            except:
-                end_time = None
+            place_address = details[2].find_all("td")[1].contents[0][:-3]
         except:
-            start_time = None
-            end_time = None
-
-        try:
-            place = details[1].find_all("td")[1].string
-        except:
-            place = None
+            place_address = None
         try:
             description = "\n".join(list(soup.find(class_="ww").strings))
         except:
-            description = None
-        return ScrapeResult(title, place, image_url, start_time, end_time, description)
+            description = ""
+        return ScrapeResult(title, place, place_address, image_url, start_time, end_time, description)
     except:
-        print("Failed to parse {}".format(url))
+        logging.exception("Failed to parse {}".format(url))
         return None
 
 
 def handle_places(session, results: [ScrapeResult]):
-    place_dict = {r.place_identifier: r.place for r in results}
+    place_dict = {r.place_identifier: r for r in results}
     existing = session.query(Place).all()
     for e in existing:
         if e.identifier in place_dict:
             del place_dict[e.identifier]
-    to_add = [Place(name=v, identifier=k) for k, v in place_dict.items()]
+    to_add = [Place(name=v.place, identifier=k, address=v.place_address)
+              for k, v in place_dict.items()]
     session.add_all(to_add)
     session.flush()
     return {p.identifier: p.id for p in existing + to_add}
 
 
 def handle_events(session, results: [ScrapeResult], place_dict):
-    event_identifiers = session.query(Event.identifier).all()
-    event_identifiers = set(e[0] for e in event_identifiers)
+    identifiers = set(r.identifier for r in results)
+    print("got identifiers", identifiers)
+    existing = session.query(Event.identifier).filter(
+        Event.identifier.in_(identifiers)).all()
+    existing = set(x[0] for x in existing)
+    print("existing", existing)
     for r in results:
-        if r.identifier not in event_identifiers:
+        if r.identifier not in existing:
             session.add(Event(name=r.name,
                               description=r.description,
                               place_id=place_dict[r.place_identifier],
@@ -108,12 +123,11 @@ def handle_results(session, results: [ScrapeResult]):
         session.commit()
     except:
         session.rollback()
-        print("FAILED TO SCRAPE")
+        logging.exception("FAILED TO SCRAPE")
 
 
 def make_session():
-    DATABASE_URL = os.environ["DATABASE_URL"]
-    engine = create_engine(DATABASE_URL)
+    engine = create_engine(config["SQLALCHEMY_DATABASE_URI"])
     Session = sessionmaker()
     Session.configure(bind=engine)
     return Session()
@@ -130,7 +144,7 @@ async def main():
                 scrape_event,
                 url
             )
-            for url in links
+            for url in links[:10]
         ]
         res = []
         for response in await asyncio.gather(*futures):

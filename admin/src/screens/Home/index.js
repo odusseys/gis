@@ -31,6 +31,7 @@ const Content = styled.div`
 
 const Pane = styled.div`
   padding: 0 40px;
+  overflow-y: auto;
 `;
 
 class Home extends Component {

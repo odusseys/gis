@@ -12,6 +12,8 @@ import { EditableText } from "@blueprintjs/core";
 const Form = styled.form`
   display: flex;
   flex-direction: column;
+  width: 400px;
+  max-width: 400px;
   & > button {
     align-self: flex-end;
   }

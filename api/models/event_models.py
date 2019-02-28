@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
+from sqlalchemy import Text, Column, Integer, String, DateTime, ForeignKey
 from .base import Base
 
 
@@ -14,7 +14,7 @@ class Event(Base):
     __tablename__ = 'event'
     name = Column(String(250), nullable=False)
     identifier = Column(String(250), nullable=False)
-    description = Column(String(250), nullable=False, default="")
+    description = Column(Text, nullable=False, default="")
     image_url = Column(String(250), nullable=True)
     start_date = Column(DateTime(250), nullable=False)
     end_date = Column(DateTime(250), nullable=False)

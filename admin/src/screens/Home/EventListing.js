@@ -29,14 +29,11 @@ const EventContainer = styled.div`
 `;
 
 const EventBadge = styled.div`
-  max-width: 80px;
-  width: 80px;
-  max-height: 50px;
-  height: 50px;
-  & > img {
-    max-height: 100%;
-    max-width: 100%;
-  }
+  min-width: 80px;
+  min-height: 50px;
+  background-image: url(${p => p.image_url});
+  background-size: contain;
+  background-repeat: no-repeat;
 `;
 
 const Event = ({
@@ -52,11 +49,9 @@ const Event = ({
 }) => {
   return (
     <EventContainer onClick={onClick} selected={selected}>
-      <EventBadge>
-        <img alt="event badge" src={image_url} />
-      </EventBadge>
-      <span>{name}</span>
-      <span>{description}</span>
+      <EventBadge image_url={image_url} />
+      <span style={{ fontWeight: "bold" }}>{name}</span>
+      <span>{description.slice(0, 100)}</span>
       <span>
         {formatDate(start_date)} - {formatDate(end_date)}
       </span>
