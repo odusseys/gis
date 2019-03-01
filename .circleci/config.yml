@@ -17,11 +17,11 @@ jobs:
           command: |
             pip install awscli --upgrade --user
             pip install awsebcli --upgrade --user
-            export PATH=~/.local/bin:$PATH  # required because not in path by default
 
       - run:
           name: deploy api
           command: |
+            export PATH=~/.local/bin:$PATH
             chmod +x api/deploy.sh
             ./api/deploy.sh
 
@@ -34,6 +34,7 @@ jobs:
       - run:
           name: deploy admin
           command: |
+            export PATH=~/.local/bin:$PATH
             yarn install
             chmod +x admin/deploy.sh
             ./admin/deploy.sh 
