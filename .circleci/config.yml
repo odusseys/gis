@@ -20,10 +20,11 @@ jobs:
 
       - run:
           name: deploy api
+          working_directory: api
           command: |
             export PATH=~/.local/bin:$PATH
-            chmod +x api/deploy.sh
-            ./api/deploy.sh
+            chmod +x deploy.sh
+            ./deploy.sh
 
       - restore_cache:
           keys:
@@ -33,13 +34,14 @@ jobs:
 
       - run:
           name: deploy admin
+          working_directory: admin
           command: |
             export PATH=~/.local/bin:$PATH
             yarn install
-            chmod +x admin/deploy.sh
-            ./admin/deploy.sh 
+            chmod +x deploy.sh
+            ./deploy.sh 
 
       - save_cache:
           paths:
-            - node_modules
+            - admin/node_modules
           key: v1-dependencies-{{ checksum "admin/package.json" }}
