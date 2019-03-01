@@ -23,7 +23,7 @@ jobs:
           name: deploy api
           command: |
             chmod +x api/deploy.sh
-            .api/deploy.sh
+            ./api/deploy.sh
 
       - restore_cache:
           keys:
@@ -35,7 +35,8 @@ jobs:
           name: deploy admin
           command: |
             yarn install
-            chmod +x admin/deploy.sh && ./admin/deploy.sh 
+            chmod +x admin/deploy.sh
+            ./admin/deploy.sh 
 
       - save_cache:
           paths:
