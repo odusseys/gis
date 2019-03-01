@@ -4,7 +4,15 @@
 #
 version: 2
 jobs:
-  api:
+  build:
+    docker:
+      - image: circleci/python:3.6.6
+
+    steps:
+      - checkout
+      - run: echo "OK"
+
+  deploy-api:
     docker:
       # specify the version you desire here
       - image: circleci/python:3.6.6
@@ -21,7 +29,7 @@ jobs:
             chmod +x api/deploy.sh
             .api/deploy.sh
 
-  admin:
+  deploy-admin:
     docker:
       # specify the version you desire here
       - image: circleci/node:8.11
