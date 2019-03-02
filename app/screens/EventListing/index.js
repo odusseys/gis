@@ -10,6 +10,7 @@ import api from "gis/api";
 import EventItem from "./EventItem";
 import BaseScreen from "screens/BaseScreen";
 import colors from "gis/styles/colors";
+import EventList from "./EventList";
 
 const Container = styled.View`
   flex: 1;
@@ -66,10 +67,11 @@ class Events extends React.Component {
       this.setState({ events, loading: false });
     });
   };
-  goToEvent = e => () => {
+  goToEvent = e => {
     this.props.navigation.navigate("Event", e);
   };
-  interestToggle = e => async () => {
+
+  interestToggle = async e => {
     const { addInterest, removeInterest, connected } = this.props;
     const interested = !e.interested;
     if (connected) {
@@ -92,23 +94,10 @@ class Events extends React.Component {
         {loading ? (
           <ActivityIndicator />
         ) : (
-          <FlatList
-            style={{
-              backgroundColor: "white",
-              maxWidth: "100%",
-              width: "100%"
-            }}
-            data={eventsFiltered}
-            keyExtractor={e => `${e.id}`}
-            renderItem={({ item }) => {
-              return (
-                <EventItem
-                  onInterestToggle={this.interestToggle(item)}
-                  onPress={this.goToEvent(item)}
-                  {...item}
-                />
-              );
-            }}
+          <EventList
+            events={eventsFiltered}
+            onEventPress={this.goToEvent}
+            onInterestToggle={this.interestToggle}
           />
         )}
         {

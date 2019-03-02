@@ -2,7 +2,7 @@ import axios from "axios";
 import store from "./store";
 
 const client = axios.create({
-  baseURL: "http://192.168.0.39:5000"
+  baseURL: "https://api.kiki.rocks"
 });
 
 const withAuth = params => ({ ...params, token: store.getState().auth.token });

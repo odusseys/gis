@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Image, ScrollView } from "react-native";
+import { Image } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 
 import { Caption, Body, Title } from "gis/library/text";
@@ -23,6 +23,7 @@ const Container = styled.ScrollView`
   flex: 1;
   width: 100%;
   background-color: ${colors.white};
+  padding: 30px;
 `;
 
 const ImageContainer = styled.View`

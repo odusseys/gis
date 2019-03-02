@@ -11,9 +11,9 @@ import { Title } from "library/text";
 
 const HeaderContainer = styled.View`
   align-self: stretch;
+  align-items: center;
   max-height: 50px;
   height: 50px;
-  margin-vertical: 10px;
   padding-horizontal: 12px;
   flex-direction: row;
   justify-content: space-between;
@@ -23,6 +23,10 @@ const HeaderContainer = styled.View`
 const Header = ({ navigation, title }) => {
   return (
     <HeaderContainer>
+      <Title
+        text="🎉"
+        style={{ fontSize: 30, marginBottom: 6, marginRight: 15 }}
+      />
       <Title
         text={title || "Kiki"}
         style={{ fontSize: 30, fontWeight: "bold", flex: 1 }}

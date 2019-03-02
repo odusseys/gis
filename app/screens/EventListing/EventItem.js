@@ -21,18 +21,21 @@ const Container = styled.TouchableOpacity`
   elevation: 1;
   background-color: ${colors.white};
 `;
+
 const ImageContainer = styled.View`
   max-width: 100px;
   max-height: 70px;
   height: 70px;
   width: 100px;
 `;
+
 const InterestContainer = styled.View`
-  width: 50;
-  height: 50;
+  width: 50px;
+  height: 50px;
   align-items: center;
   justify-content: center;
 `;
+
 const EventItem = ({
   onPress,
   name,
@@ -49,7 +52,7 @@ const EventItem = ({
           style={{ maxHeight: "100%", height: "100%" }}
         />
       </ImageContainer>
-      <View style={{ maxWidth: 200 }}>
+      <View style={{ maxWidth: 200, flex: 1 }}>
         <Body text={name} color="black" />
         <Caption text={place_name} color="black" />
       </View>
@@ -58,7 +61,7 @@ const EventItem = ({
           onPress={onInterestToggle}
           name={interested ? "star" : "star-border"}
           color={interested ? colors.yellow : colors.grey}
-          size={20}
+          size={30}
         />
       </InterestContainer>
     </Container>

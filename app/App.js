@@ -1,16 +1,16 @@
 import { createStackNavigator, createAppContainer } from "react-navigation";
 
-import Events from "./screens/events";
-import Auth from "./screens/auth";
-import Splash from "./screens/splash";
-import Event from "./screens/events/Event";
-import Settings from "./screens/settings";
+import EventListing from "./screens/EventListing";
+import Auth from "./screens/Auth";
+import Splash from "./screens/Splash";
+import Event from "./screens/Event";
+import Settings from "./screens/Settings";
 
 const AppNavigator = createStackNavigator(
   {
     Splash: { screen: Splash },
     Signup: { screen: Auth },
-    Home: { screen: Events },
+    Home: { screen: EventListing },
     Event: { screen: Event },
     Settings: { screen: Settings }
   },
