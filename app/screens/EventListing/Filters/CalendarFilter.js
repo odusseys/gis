@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import { Calendar } from "react-native-calendars";
 import moment from "moment";
-import { AntDesign } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
 import colors from "styles/colors";
 import { Subtitle } from "library/text";
 
@@ -16,15 +16,17 @@ const ClearContainer = styled.TouchableOpacity`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  height: 40px;
+  padding-bottom: 15px;
+  border-bottom-width: 1px;
+  border-bottom-color: ${colors.lightGrey};
 `;
 
 const Clear = ({ onPress }) => {
   return (
     <ClearContainer onPress={onPress}>
-      <AntDesign
-        name="close"
-        color={colors.black}
+      <FontAwesome
+        name="trash"
+        color={colors.red}
         size={24}
         style={{ marginRight: 12 }}
       />
@@ -58,6 +60,7 @@ class CalendarFilter extends Component {
       .format("YYYY-MM-DD");
     return (
       <CalendarContainer zIndex={3}>
+        {active && <Clear onPress={() => this.onChange(undefined)} />}
         <Calendar
           minDate={minDate}
           maxDate={maxDate}
@@ -72,7 +75,6 @@ class CalendarFilter extends Component {
             arrowColor: colors.yellow
           }}
         />
-        {active && <Clear onPress={() => this.onChange(undefined)} />}
       </CalendarContainer>
     );
   }

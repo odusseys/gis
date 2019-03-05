@@ -1,29 +1,25 @@
 import React from "react";
 import styled from "styled-components";
 import { Image } from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
-
+import { Ionicons, Feather } from "@expo/vector-icons";
+import moment from "moment";
 import { Caption, Body, Title } from "gis/library/text";
 import colors from "gis/styles/colors";
 import BaseScreen from "gis/screens/BaseScreen";
+import frLocale from "moment/locale/fr";
 
-const IconRowStyle = styled.View`
-  flex-direction: row;
-`;
-const IconRow = ({ name, text }) => {
-  return (
-    <IconRowStyle>
-      <MaterialIcons name={name} color="white" style={{ marginRight: 12 }} />
-      {text}
-    </IconRowStyle>
-  );
-};
+const formatDate = d =>
+  moment(d)
+    .locale("fr", frLocale)
+    .format("LLLL");
 
-const Container = styled.ScrollView`
+const Container = styled.View`
   flex: 1;
   width: 100%;
   background-color: ${colors.white};
   padding: 30px;
+  padding-top: 0;
+  align-items: center;
 `;
 
 const ImageContainer = styled.View`
@@ -34,6 +30,45 @@ const ImageContainer = styled.View`
   margin-bottom: 20px;
 `;
 
+const Description = styled.ScrollView`
+  flex: 1;
+  align-self: stretch;
+`;
+
+const IconRowContainer = styled.View`
+  flex-direction: row;
+  align-self: stretch;
+  align-items: center;
+`;
+
+const IconContainer = styled.View`
+  width: 40px;
+  align-items: center;
+  margin-right: 12px;
+  margin-bottom: 10px;
+`;
+
+const IconRow = ({ icon: Icon, children }) => {
+  return (
+    <IconRowContainer>
+      <IconContainer>
+        <Icon size={20} />
+      </IconContainer>
+      {children}
+    </IconRowContainer>
+  );
+};
+
+const Dates = ({ start, end }) => {
+  return (
+    <IconRow icon={p => <Feather name="clock" {...p} />}>
+      <Caption text={formatDate(start)} color="black" />
+      <Feather name="arrow-right" style={{ marginHorizontal: 8 }} />
+      <Caption text={formatDate(end)} color="black" />
+    </IconRow>
+  );
+};
+
 const Event = ({
   onPress,
   name,
@@ -41,27 +76,26 @@ const Event = ({
   image_url,
   description,
   start_date,
-  end_date
+  end_date,
+  ...rest
 }) => {
+  console.warn(rest);
   return (
-    <Container
-      onPress={onPress}
-      contentContainerStyle={{ alignItems: "center" }}
-    >
+    <Container onPress={onPress}>
       <ImageContainer>
         <Image
           source={{ uri: image_url }}
           style={{ maxHeight: "100%", height: "100%" }}
         />
       </ImageContainer>
-      <Title text={name} color="black" />
-      <IconRow
-        name="location-on"
-        text={<Caption text={place_name} color="black" />}
-      />
-      <Caption text={start_date} color="black" />
-      <Caption text={end_date} color="black" />
-      <Body text={description} color="black" />
+      <Title text={name} color="black" style={{ marginBottom: 12 }} />
+      <IconRow icon={p => <Ionicons name="ios-pin" {...p} />}>
+        <Body text={place_name} />
+      </IconRow>
+      <Dates start={start_date} end={end_date} />
+      <Description>
+        <Body text={description} color="black" hyperlinks />
+      </Description>
     </Container>
   );
 };

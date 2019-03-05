@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { StyleSheet, Text as RNText } from "react-native";
 import { getLocaleString } from "gis/services/i18n";
 import colors from "gis/styles/colors";
+import Hyperlink from "react-native-hyperlink";
 
 const getColor = color => colors[color] || color || colors.black;
 
@@ -13,9 +14,10 @@ export const Text = ({
   text,
   values,
   color,
+  hyperlinks,
   ...rest
 }) => {
-  return (
+  const contents = (
     <RNText
       style={StyleSheet.flatten([
         { color: getColor(color), backgroundColor: "rgba(0,0,0,0)" },
@@ -26,6 +28,10 @@ export const Text = ({
       {text || getLocaleString(language, name, values)}
     </RNText>
   );
+  if (hyperlinks) {
+    return <Hyperlink linkDefault>{contents}</Hyperlink>;
+  }
+  return contents;
 };
 
 const LocaleText = connect(state => ({ language: state.config.language }))(

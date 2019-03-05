@@ -9,7 +9,7 @@ import colors from "styles/colors";
 const Container = styled.View`
   shadow-color: black;
   shadow-opacity: 0.2;
-  shadow-offset: -1px -1px;
+  shadow-offset: 0px -1px;
   elevation: 2;
 `;
 
