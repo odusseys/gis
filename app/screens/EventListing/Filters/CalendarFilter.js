@@ -2,22 +2,13 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import { Calendar } from "react-native-calendars";
 import moment from "moment";
-import Filter from "./Filter";
 import { AntDesign } from "@expo/vector-icons";
 import colors from "styles/colors";
 import { Subtitle } from "library/text";
 
 const CalendarContainer = styled.View`
-  position: absolute;
-  bottom: 60px;
-  right: 0;
-  z-index: 3;
-  elevation: 3;
   background-color: white;
   padding: 15px;
-  shadow-color: black;
-  shadow-opacity: 0.2;
-  shadow-offset: 1px 1px;
 `;
 
 const ClearContainer = styled.TouchableOpacity`
@@ -43,13 +34,8 @@ const Clear = ({ onPress }) => {
 };
 
 class CalendarFilter extends Component {
-  state = {
-    open: false
-  };
-
   onChange = dateString => {
     const { value, onChange } = this.props;
-    this.setState({ open: false });
     onChange(dateString === value ? undefined : dateString);
   };
 
@@ -71,30 +57,23 @@ class CalendarFilter extends Component {
       .add(60, "days")
       .format("YYYY-MM-DD");
     return (
-      <React.Fragment>
-        <Filter
-          onPress={() => this.setState({ open: !this.state.open })}
-          active={active}
-        >
-          <AntDesign
-            name={"calendar"}
-            color={active ? colors.white : colors.yellow}
-            size={30}
-          />
-        </Filter>
-
-        {this.state.open && (
-          <CalendarContainer>
-            <Calendar
-              minDate={minDate}
-              maxDate={maxDate}
-              onDayPress={({ dateString }) => this.onChange(dateString)}
-              markedDates={this.getMarkedDates()}
-            />
-            {active && <Clear onPress={() => this.onChange(undefined)} />}
-          </CalendarContainer>
-        )}
-      </React.Fragment>
+      <CalendarContainer zIndex={3}>
+        <Calendar
+          minDate={minDate}
+          maxDate={maxDate}
+          onDayPress={({ dateString }) => this.onChange(dateString)}
+          markedDates={this.getMarkedDates()}
+          theme={{
+            selectedDayTextColor: active ? colors.white : colors.yellow,
+            selectedDayBackgroundColor: colors.yellow,
+            todayTextColor: colors.yellow,
+            dotColor: colors.yellow,
+            selectedDotColor: colors.yellow,
+            arrowColor: colors.yellow
+          }}
+        />
+        {active && <Clear onPress={() => this.onChange(undefined)} />}
+      </CalendarContainer>
     );
   }
 }

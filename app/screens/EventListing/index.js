@@ -1,17 +1,13 @@
 import React from "react";
 import styled from "styled-components";
-import { ActivityIndicator } from "react-native";
+import { ActivityIndicator, View } from "react-native";
 import { connect } from "react-redux";
-import { MaterialIcons } from "@expo/vector-icons";
-
 import { Title } from "gis/library/text";
 import api from "gis/api";
 import BaseScreen from "screens/BaseScreen";
-import colors from "gis/styles/colors";
 import EventList from "./EventList";
-import Filter from "./Filter";
-import CalendarFilter from "./CalendarFilter";
 import { extractDistinctDates, filterByDate } from "./util";
+import Filters from "./Filters";
 
 const Container = styled.View`
   flex: 1;
@@ -22,31 +18,10 @@ const Container = styled.View`
   width: 100%;
 `;
 
-const FilterContainer = styled.View`
-  position: absolute;
-  bottom: 20;
-  right: 20;
-  flex-direction: row;
-`;
-
-const InterestedFilter = ({ active, onPress }) => {
-  return (
-    <Filter onPress={onPress} active={active}>
-      <MaterialIcons
-        name={active ? "star" : "star-border"}
-        color={active ? colors.white : colors.yellow}
-        size={30}
-      />
-    </Filter>
-  );
-};
-
 class Events extends React.PureComponent {
   state = {
     events: [],
-    interestedOnly: false,
-    dateFilter: undefined,
-    loading: false
+    filters: { interested: false, date: undefined }
   };
   componentDidMount = () => {
     this.setState({ loading: true }, async () => {
@@ -78,19 +53,22 @@ class Events extends React.PureComponent {
   };
 
   render() {
-    const { loading, interestedOnly, events, dateFilter } = this.state;
-    const interestsFiltered = interestedOnly
+    const { loading, events, filters } = this.state;
+    const { date, interested } = filters;
+    const interestsFiltered = interested
       ? events.filter(e => e.interested)
       : events;
     const dateOptions = extractDistinctDates(interestsFiltered);
-    const eventsFiltered = dateFilter
-      ? filterByDate(interestsFiltered, dateFilter)
+    const eventsFiltered = date
+      ? filterByDate(interestsFiltered, date)
       : interestsFiltered;
     return (
       <Container>
         <Title name="EVENTS" style={{ marginBottom: 20 }} />
         {loading ? (
-          <ActivityIndicator />
+          <View style={{ flex: 1 }}>
+            <ActivityIndicator />
+          </View>
         ) : (
           <EventList
             events={eventsFiltered}
@@ -98,19 +76,11 @@ class Events extends React.PureComponent {
             onInterestToggle={this.interestToggle}
           />
         )}
-        {
-          <FilterContainer>
-            <InterestedFilter
-              active={interestedOnly}
-              onPress={() => this.setState({ interestedOnly: !interestedOnly })}
-            />
-            <CalendarFilter
-              value={dateFilter}
-              onChange={dateFilter => this.setState({ dateFilter })}
-              options={dateOptions}
-            />
-          </FilterContainer>
-        }
+        <Filters
+          value={filters}
+          onChange={filters => this.setState({ filters })}
+          dateOptions={dateOptions}
+        />
       </Container>
     );
   }

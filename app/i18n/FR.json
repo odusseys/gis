@@ -12,5 +12,7 @@
   "LOGIN": "Se connecter",
   "SIGNUP": "Me créer un compte",
   "LOGOUT": "Déconnexion",
-  "CLEAR_DATE_FILTER": "Retirer le filtre"
+  "CLEAR_DATE_FILTER": "Retirer le filtre",
+  "CALENDAR_FILTER": "Filtrer par date",
+  "INTERESTED_FILTER": "Filtrer par intérêt"
 }
