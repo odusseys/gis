@@ -1,16 +1,17 @@
 import React from "react";
 import styled from "styled-components";
-import { FlatList, ActivityIndicator } from "react-native";
+import { ActivityIndicator } from "react-native";
 import { connect } from "react-redux";
 import { MaterialIcons } from "@expo/vector-icons";
 
-import { getEvents } from "gis/services/events";
 import { Title } from "gis/library/text";
 import api from "gis/api";
-import EventItem from "./EventItem";
 import BaseScreen from "screens/BaseScreen";
 import colors from "gis/styles/colors";
 import EventList from "./EventList";
+import Filter from "./Filter";
+import CalendarFilter from "./CalendarFilter";
+import { extractDistinctDates, filterByDate } from "./util";
 
 const Container = styled.View`
   flex: 1;
@@ -21,43 +22,35 @@ const Container = styled.View`
   width: 100%;
 `;
 
-const FilterContainer = styled.TouchableOpacity`
-  align-items: center;
-  justify-content: center;
-  width: 60px;
-  height: 60px;
-  border-radius: 30px;
-  background-color: ${p => (p.active ? colors.yellow : "white")};
+const FilterContainer = styled.View`
   position: absolute;
   bottom: 20;
   right: 20;
-  shadow-color: black;
-  shadow-opacity: 0.2;
-  shadow-offset: 1px 1px;
-  elevation: 2;
+  flex-direction: row;
 `;
 
 const InterestedFilter = ({ active, onPress }) => {
   return (
-    <FilterContainer onPress={onPress} active={active}>
+    <Filter onPress={onPress} active={active}>
       <MaterialIcons
         name={active ? "star" : "star-border"}
         color={active ? colors.white : colors.yellow}
         size={30}
       />
-    </FilterContainer>
+    </Filter>
   );
 };
 
-class Events extends React.Component {
+class Events extends React.PureComponent {
   state = {
     events: [],
     interestedOnly: false,
+    dateFilter: undefined,
     loading: false
   };
   componentDidMount = () => {
     this.setState({ loading: true }, async () => {
-      const events = await getEvents();
+      const events = await api.events.list();
       const { connected, interests } = this.props;
       if (!connected) {
         for (let e of events) {
@@ -83,11 +76,16 @@ class Events extends React.Component {
     e.interested = interested;
     this.setState({ events: this.state.events });
   };
+
   render() {
-    const { loading, interestedOnly, events } = this.state;
-    const eventsFiltered = interestedOnly
+    const { loading, interestedOnly, events, dateFilter } = this.state;
+    const interestsFiltered = interestedOnly
       ? events.filter(e => e.interested)
       : events;
+    const dateOptions = extractDistinctDates(interestsFiltered);
+    const eventsFiltered = dateFilter
+      ? filterByDate(interestsFiltered, dateFilter)
+      : interestsFiltered;
     return (
       <Container>
         <Title name="EVENTS" style={{ marginBottom: 20 }} />
@@ -101,10 +99,17 @@ class Events extends React.Component {
           />
         )}
         {
-          <InterestedFilter
-            active={interestedOnly}
-            onPress={() => this.setState({ interestedOnly: !interestedOnly })}
-          />
+          <FilterContainer>
+            <InterestedFilter
+              active={interestedOnly}
+              onPress={() => this.setState({ interestedOnly: !interestedOnly })}
+            />
+            <CalendarFilter
+              value={dateFilter}
+              onChange={dateFilter => this.setState({ dateFilter })}
+              options={dateOptions}
+            />
+          </FilterContainer>
         }
       </Container>
     );

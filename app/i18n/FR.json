@@ -11,5 +11,6 @@
   "VALIDATE": "Valider",
   "LOGIN": "Se connecter",
   "SIGNUP": "Me créer un compte",
-  "LOGOUT": "Déconnexion"
+  "LOGOUT": "Déconnexion",
+  "CLEAR_DATE_FILTER": "Retirer le filtre"
 }
