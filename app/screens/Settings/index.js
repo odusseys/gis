@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
-import { TextButton } from "gis/library/buttons";
-import BaseScreen from "screens/BaseScreen";
+import { TextButton } from "kiki/library/buttons";
+import BaseScreen from "kiki/screens/BaseScreen";
 
 const Container = styled.View`
   flex: 1;

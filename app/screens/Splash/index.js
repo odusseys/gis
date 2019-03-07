@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
 import { ActivityIndicator } from "react-native";
-import BaseScreen from "screens/BaseScreen";
+import BaseScreen from "kiki/screens/BaseScreen";
 
 const Container = styled.View`
   background-color: white;

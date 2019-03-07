@@ -1,16 +1,25 @@
 {
   "presets": ["babel-preset-expo"],
-  "env": {
-    "development": {
-      "plugins": [
-        "@babel/transform-react-jsx-source",
-        [
-          "babel-plugin-module-resolver",
-          {
-            "root": "."
-          }
+  "plugins": [
+    "@babel/transform-react-jsx-source",
+    [
+      "babel-plugin-module-resolver",
+      {
+        "root": "./",
+        "alias": {
+          "kiki": "."
+        },
+        "extensions": [
+          ".js",
+          ".jsx",
+          ".ts",
+          ".tsx",
+          ".android.js",
+          ".android.tsx",
+          ".ios.js",
+          ".ios.tsx"
         ]
-      ]
-    }
-  }
+      }
+    ]
+  ]
 }

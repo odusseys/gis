@@ -6,8 +6,8 @@ import styled from "styled-components";
 import { MaterialIcons } from "@expo/vector-icons";
 
 import store, { persistor } from "store";
-import colors from "styles/colors";
-import { Title } from "library/text";
+import colors from "kiki/styles/colors";
+import { Title } from "kiki/library/text";
 
 const HeaderContainer = styled.View`
   align-self: stretch;

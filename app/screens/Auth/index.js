@@ -1,11 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
-import { Title, Body } from "gis/library/text";
-import { TextButton } from "gis/library/buttons";
+import { Title, Body } from "kiki/library/text";
+import { TextButton } from "kiki/library/buttons";
 import PhoneInput from "react-native-phone-input";
-import api from "gis/api";
-import BaseScreen from "screens/BaseScreen";
+import api from "kiki/api";
+import BaseScreen from "kiki/screens/BaseScreen";
 
 const Container = styled.View`
   background-color: white;

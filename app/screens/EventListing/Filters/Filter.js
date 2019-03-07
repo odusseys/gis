@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import colors from "styles/colors";
-import { Body } from "library/text";
+import colors from "kiki/styles/colors";
+import { Body } from "kiki/library/text";
 
 const Container = styled.TouchableOpacity`
   flex-direction: row;

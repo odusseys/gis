@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { FlatList } from "react-native";
 import EventItem from "./EventItem";
-import { Title } from "gis/library/text";
+import { Title } from "kiki/library/text";
 import { getItems } from "./util";
 
 const TitleContainer = styled.View`

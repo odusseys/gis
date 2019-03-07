@@ -3,9 +3,9 @@ import styled from "styled-components";
 import { Image } from "react-native";
 import { Ionicons, Feather } from "@expo/vector-icons";
 import moment from "moment";
-import { Caption, Body, Title } from "gis/library/text";
-import colors from "gis/styles/colors";
-import BaseScreen from "gis/screens/BaseScreen";
+import { Caption, Body, Title } from "kiki/library/text";
+import colors from "kiki/styles/colors";
+import BaseScreen from "kiki/screens/BaseScreen";
 import frLocale from "moment/locale/fr";
 
 const formatDate = d =>

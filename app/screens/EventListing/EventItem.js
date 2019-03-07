@@ -3,8 +3,8 @@ import styled from "styled-components";
 import { Image, View } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 
-import { Caption, Body } from "gis/library/text";
-import colors from "gis/styles/colors";
+import { Caption, Body } from "kiki/library/text";
+import colors from "kiki/styles/colors";
 
 const Container = styled.TouchableOpacity`
   max-width: 100%;

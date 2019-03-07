@@ -4,7 +4,7 @@ import Filter from "./Filter";
 import CalendarFilter from "./CalendarFilter";
 import { MaterialIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
-import colors from "styles/colors";
+import colors from "kiki/styles/colors";
 
 const Container = styled.View`
   shadow-color: black;

@@ -1,8 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 import { StyleSheet, Text as RNText } from "react-native";
-import { getLocaleString } from "gis/services/i18n";
-import colors from "gis/styles/colors";
+import { getLocaleString } from "kiki/services/i18n";
+import colors from "kiki/styles/colors";
 import Hyperlink from "react-native-hyperlink";
 
 const getColor = color => colors[color] || color || colors.black;

@@ -3,8 +3,8 @@ import styled from "styled-components";
 import { Calendar } from "react-native-calendars";
 import moment from "moment";
 import { FontAwesome } from "@expo/vector-icons";
-import colors from "styles/colors";
-import { Subtitle } from "library/text";
+import colors from "kiki/styles/colors";
+import { Subtitle } from "kiki/library/text";
 
 const CalendarContainer = styled.View`
   background-color: white;
