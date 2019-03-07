@@ -197,9 +197,10 @@ export default () => {
         changes shall constitute your consent to such changes. Policy was
         created with
         <a
-          style="color:#333"
+          style={{ color: "#333" }}
           target="_blank"
           title="Create terms and conditions"
+          rel="noopener noreferrer"
           href="https://www.websitepolicies.com/terms-and-conditions-generator"
         >
           WebsitePolicies.com

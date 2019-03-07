@@ -256,8 +256,9 @@ export default () => {
         of the Mobile Application after any such changes shall constitute your
         consent to such changes. Policy was created with{" "}
         <a
-          style="color:#333"
+          style={{ color: "#333" }}
           target="_blank"
+          rel="noopener noreferrer"
           title="Create privacy policy"
           href="https://www.websitepolicies.com/privacy-policy-generator"
         >
