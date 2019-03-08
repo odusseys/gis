@@ -6,7 +6,10 @@ import { Title } from "kiki/library/text";
 import { getItems } from "./util";
 
 const TitleContainer = styled.View`
-  padding: 10px 20px;
+  padding-vertical: 10px;
+  width: 100%;
+  align-self: stretch;
+  align-items: center;
 `;
 
 const NoEvents = styled.View`

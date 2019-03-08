@@ -7,6 +7,8 @@ import { Caption, Body, Title } from "kiki/library/text";
 import colors from "kiki/styles/colors";
 import BaseScreen from "kiki/screens/BaseScreen";
 import frLocale from "moment/locale/fr";
+import IconRow from "./IconRow";
+import Place from "./Place";
 
 const formatDate = d =>
   moment(d)
@@ -35,30 +37,6 @@ const Description = styled.ScrollView`
   align-self: stretch;
 `;
 
-const IconRowContainer = styled.View`
-  flex-direction: row;
-  align-self: stretch;
-  align-items: center;
-`;
-
-const IconContainer = styled.View`
-  width: 40px;
-  align-items: center;
-  margin-right: 12px;
-  margin-bottom: 10px;
-`;
-
-const IconRow = ({ icon: Icon, children }) => {
-  return (
-    <IconRowContainer>
-      <IconContainer>
-        <Icon size={20} />
-      </IconContainer>
-      {children}
-    </IconRowContainer>
-  );
-};
-
 const Dates = ({ start, end }) => {
   return (
     <IconRow icon={p => <Feather name="clock" {...p} />}>
@@ -73,13 +51,13 @@ const Event = ({
   onPress,
   name,
   place_name,
+  place_address,
   image_url,
   description,
   start_date,
   end_date,
   ...rest
 }) => {
-  console.warn(rest);
   return (
     <Container onPress={onPress}>
       <ImageContainer>
@@ -89,9 +67,7 @@ const Event = ({
         />
       </ImageContainer>
       <Title text={name} color="black" style={{ marginBottom: 12 }} />
-      <IconRow icon={p => <Ionicons name="ios-pin" {...p} />}>
-        <Body text={place_name} />
-      </IconRow>
+      <Place name={place_name} address={place_address} />
       <Dates start={start_date} end={end_date} />
       <Description>
         <Body text={description} color="black" hyperlinks />
