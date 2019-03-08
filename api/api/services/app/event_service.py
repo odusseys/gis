@@ -15,6 +15,7 @@ def _event_place_to_json(event, place, interested):
         image_url=event.image_url,
         place_id=event.place_id,
         place_name=place.name,
+        place_address=place.address,
         interested=interested
     )
 

@@ -5,7 +5,50 @@ import moment from "moment";
 import { FontAwesome } from "@expo/vector-icons";
 import colors from "kiki/styles/colors";
 import { Subtitle } from "kiki/library/text";
+import { LocaleConfig } from "react-native-calendars";
 
+LocaleConfig.locales["fr"] = {
+  monthNames: [
+    "Janvier",
+    "Février",
+    "Mars",
+    "Avril",
+    "Mai",
+    "Juin",
+    "Juillet",
+    "Août",
+    "Septembre",
+    "Octobre",
+    "Novembre",
+    "Décembre"
+  ],
+  monthNamesShort: [
+    "Janv.",
+    "Févr.",
+    "Mars",
+    "Avril",
+    "Mai",
+    "Juin",
+    "Juil.",
+    "Août",
+    "Sept.",
+    "Oct.",
+    "Nov.",
+    "Déc."
+  ],
+  dayNames: [
+    "Dimanche",
+    "Lundi",
+    "Mardi",
+    "Mercredi",
+    "Jeudi",
+    "Vendredi",
+    "Samedi"
+  ],
+  dayNamesShort: ["Dim.", "Lun.", "Mar.", "Mer.", "Jeu.", "Ven.", "Sam."]
+};
+
+LocaleConfig.defaultLocale = "fr";
 const CalendarContainer = styled.View`
   background-color: white;
   padding: 15px;
@@ -66,6 +109,7 @@ class CalendarFilter extends Component {
           maxDate={maxDate}
           onDayPress={({ dateString }) => this.onChange(dateString)}
           markedDates={this.getMarkedDates()}
+          firstDay={1}
           theme={{
             selectedDayTextColor: active ? colors.white : colors.yellow,
             selectedDayBackgroundColor: colors.yellow,

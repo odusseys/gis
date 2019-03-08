@@ -9,6 +9,13 @@ const TitleContainer = styled.View`
   padding: 10px 20px;
 `;
 
+const NoEvents = styled.View`
+  flex: 1;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+`;
+
 class EventList extends React.Component {
   renderItem = ({ item }) => {
     const { onInterestToggle, onEventPress } = this.props;
@@ -32,6 +39,13 @@ class EventList extends React.Component {
 
   render() {
     const items = getItems(this.props.events);
+    if (!items.length) {
+      return (
+        <NoEvents>
+          <Title name="NO_EVENTS" />
+        </NoEvents>
+      );
+    }
     return (
       <FlatList
         style={{

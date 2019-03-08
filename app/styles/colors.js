@@ -8,7 +8,7 @@ const colors = {
   night: "#1f1c4c",
   purple: "#5747e8",
   lightPurple: "#eceaff",
-  yellow: "#f4b642",
+  yellow: "#F7CA18",
   red: "#ff7a77"
 };
 export default colors;

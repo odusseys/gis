@@ -64,9 +64,10 @@ class Events extends React.PureComponent {
       : interestsFiltered;
     return (
       <Container>
-        <Title name="EVENTS" style={{ marginBottom: 20 }} />
         {loading ? (
-          <View style={{ flex: 1 }}>
+          <View
+            style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+          >
             <ActivityIndicator />
           </View>
         ) : (

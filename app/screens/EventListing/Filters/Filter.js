@@ -10,13 +10,17 @@ const Container = styled.TouchableOpacity`
   padding: 10px 20px;
   border-radius: 10px;
   background-color: ${p => (p.active ? colors.yellow : "white")};
-  border: 1px ${colors.yellow} solid;
+  border: 1px ${p => (p.active ? colors.yellow : colors.lightGrey)} solid;
 `;
 
 const Filter = ({ icon: Icon, name, onPress, active, ...rest }) => {
   return (
     <Container active={active} onPress={onPress} {...rest}>
-      <Icon color={active ? colors.white : colors.yellow} size={20} />
+      <Icon
+        color={active ? colors.white : colors.yellow}
+        size={20}
+        style={{ marginRight: 8 }}
+      />
       <Body name={name} color={active ? colors.white : colors.yellow} />
     </Container>
   );

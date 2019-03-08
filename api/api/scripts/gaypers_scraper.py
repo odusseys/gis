@@ -99,11 +99,9 @@ def handle_places(session, results: [ScrapeResult]):
 
 def handle_events(session, results: [ScrapeResult], place_dict):
     identifiers = set(r.identifier for r in results)
-    print("got identifiers", identifiers)
     existing = session.query(Event.identifier).filter(
         Event.identifier.in_(identifiers)).all()
     existing = set(x[0] for x in existing)
-    print("existing", existing)
     for r in results:
         if r.identifier not in existing:
             session.add(Event(name=r.name,
@@ -144,7 +142,7 @@ async def main():
                 scrape_event,
                 url
             )
-            for url in links[:10]
+            for url in links
         ]
         res = []
         for response in await asyncio.gather(*futures):

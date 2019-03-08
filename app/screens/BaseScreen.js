@@ -1,7 +1,7 @@
 import React from "react";
 import { StatusBar, Platform, SafeAreaView } from "react-native";
 import { PersistGate } from "redux-persist/es/integration/react";
-import { Provider } from "react-redux";
+import { Provider, connect } from "react-redux";
 import styled from "styled-components";
 import { MaterialIcons } from "@expo/vector-icons";
 
@@ -20,7 +20,7 @@ const HeaderContainer = styled.View`
   width: 100%;
 `;
 
-const Header = ({ navigation, title }) => {
+const HeaderDumb = ({ navigation, title, connected }) => {
   return (
     <HeaderContainer>
       <Title
@@ -31,16 +31,22 @@ const Header = ({ navigation, title }) => {
         text={title || "Kiki"}
         style={{ fontSize: 30, fontWeight: "bold", flex: 1 }}
       />
-      <MaterialIcons
-        name="settings"
-        color={colors.grey}
-        size={24}
-        style={{}}
-        onPress={() => navigation.navigate("Settings")}
-      />
+      {connected && (
+        <MaterialIcons
+          name="settings"
+          color={colors.grey}
+          size={24}
+          style={{}}
+          onPress={() => navigation.navigate("Settings")}
+        />
+      )}
     </HeaderContainer>
   );
 };
+
+const Header = connect(state => ({ connected: !!state.auth.token }))(
+  HeaderDumb
+);
 
 const Container = styled.View`
   flex: 1;
