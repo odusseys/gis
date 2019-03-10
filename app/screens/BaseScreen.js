@@ -51,7 +51,7 @@ const Header = connect(state => ({ connected: !!state.auth.token }))(
 const Container = styled.View`
   flex: 1;
   background-color: ${colors.white};
-  padding-top: ${Platform.OS === "ios" ? 0 : StatusBar.currentHeight}px;
+  /* padding-top: ${Platform.OS === "ios" ? 0 : StatusBar.currentHeight}px; */
 `;
 
 const BaseScreenMaker = (Component, options = {}) => {

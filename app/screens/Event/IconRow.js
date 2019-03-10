@@ -16,13 +16,20 @@ const IconContainer = styled.View`
   margin-right: 12px;
 `;
 
-const IconRow = ({ icon: Icon, children }) => {
+const Content = styled.View`
+  flex: 1;
+  flex-direction: row;
+  flex-wrap: ${p => (p.wrap ? "wrap" : "nowrap")};
+  align-items: center;
+`;
+
+const IconRow = ({ icon: Icon, children, wrap }) => {
   return (
     <IconRowContainer>
       <IconContainer>
         <Icon size={20} color={colors.yellow} />
       </IconContainer>
-      {children}
+      <Content wrap={wrap}>{children}</Content>
     </IconRowContainer>
   );
 };

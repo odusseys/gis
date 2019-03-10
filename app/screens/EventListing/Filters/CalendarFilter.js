@@ -98,6 +98,7 @@ class CalendarFilter extends Component {
     const { value } = this.props;
     const active = !!value;
     const minDate = moment().format("YYYY-MM-DD");
+    const today = minDate;
     const maxDate = moment()
       .add(60, "days")
       .format("YYYY-MM-DD");
@@ -111,7 +112,7 @@ class CalendarFilter extends Component {
           markedDates={this.getMarkedDates()}
           firstDay={1}
           theme={{
-            selectedDayTextColor: active ? colors.white : colors.yellow,
+            selectedDayTextColor: colors.white,
             selectedDayBackgroundColor: colors.yellow,
             todayTextColor: colors.yellow,
             dotColor: colors.yellow,

@@ -27,6 +27,7 @@ const ImageContainer = styled.View`
   max-height: 70px;
   height: 70px;
   width: 100px;
+  margin-right: 8px;
 `;
 
 const InterestContainer = styled.View`

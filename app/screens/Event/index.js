@@ -20,7 +20,6 @@ const Container = styled.View`
   width: 100%;
   background-color: ${colors.white};
   padding: 30px;
-  padding-top: 0;
   align-items: center;
 `;
 
@@ -39,7 +38,7 @@ const Description = styled.ScrollView`
 
 const Dates = ({ start, end }) => {
   return (
-    <IconRow icon={p => <Feather name="clock" {...p} />}>
+    <IconRow icon={p => <Feather name="clock" {...p} />} wrap>
       <Caption text={formatDate(start)} color="black" />
       <Feather name="arrow-right" style={{ marginHorizontal: 8 }} />
       <Caption text={formatDate(end)} color="black" />
