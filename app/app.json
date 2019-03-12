@@ -3,22 +3,24 @@
     "sdkVersion": "32.0.0",
     "name": "Kiki",
     "slug": "kiki",
-    "version": "0.0.1",
+    "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./party-icon.png",
+    "icon": "./app-icon.png",
     "androidStatusBar": {
       "barStyle": "dark-content",
       "backgroundColor": "#0A48A5"
     },
     "splash": {
       "backgroundColor": "#FFFFFF",
-      "image": "./party-icon.png"
+      "image": "./splash-icon.png"
     },
     "ios": {
       "bundleIdentifier": "com.odusseys.kiki"
     },
     "android": {
-      "package": "com.odusseys.kiki"
+      "package": "com.odusseys.kiki",
+      "permissions": [],
+      "versionCode": 2
     }
   }
 }
