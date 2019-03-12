@@ -28,7 +28,7 @@ jobs:
 
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "admin/package.json" }}-{{ checksum "website/package.json"}}
+            - v1-dependencies-{{ checksum "admin/package.json" }}-{{ checksum "website/package.json"}}-{{ checksum "app/package.json"}}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
       - run:
@@ -51,7 +51,18 @@ jobs:
             chmod +x deploy.sh
             ./deploy.sh 
 
+      - run:
+          name: deploy app
+          working_directory: app
+          command: |
+            yarn
+            npx expo login -u $EXPO_USERNAME -p $EXPO_PASSWORD
+            npx expo publish --non-interactive
+
       - save_cache:
           paths:
+            - node_modules
+            - website/node_modules
             - admin/node_modules
-          key: v1-dependencies-{{ checksum "admin/package.json" }}-{{ checksum "website/package.json"}}
+            - app/node_modules
+          key: v1-dependencies-{{ checksum "admin/package.json" }}-{{ checksum "website/package.json" }}-{{ checksum "app/package.json" }}
