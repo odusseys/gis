@@ -4,6 +4,7 @@ import os
 import pytz
 import concurrent
 import logging
+import json
 from dateutil.parser import parse
 from bs4 import BeautifulSoup
 from api.models import Event, Place
@@ -26,7 +27,7 @@ def get_page_soup(url):
     return BeautifulSoup(page, "html5lib")
 
 
-soup = get_page_soup(URL + "/en/Paris")
+soup = get_page_soup(URL + "/fr/Paris")
 cards = soup.find_all(class_="col-lg-3 col-md-4 col-sm-6 col-xs-6")
 links = ["{}{}".format(URL, c.a["href"]) for c in cards]
 
@@ -63,12 +64,13 @@ def parse_time(t):
 def scrape_event(url):
     try:
         soup = get_page_soup(url)
+        json_data = soup.find('script', dict(type="application/ld+json")).text
+        json_data = json.loads(json_data)
         title = soup.find(id="h1col1").string
-        image_url = soup.find(class_="img-responsive")["src"]
+        image_url = json_data["image"]
+        start_time = parse(json_data["startDate"])
+        end_time = parse(json_data["endDate"])
         details = list(soup.find(class_="det").find_all('tr'))
-        times = list(details[0].find_all('td')[1].strings)
-        start_time = parse_time(times[0])
-        end_time = parse_time(times[1][2:])
         place = details[1].find_all("td")[1].string
         try:
             place_address = details[2].find_all("td")[1].contents[0][:-3]
@@ -78,7 +80,8 @@ def scrape_event(url):
             description = "\n".join(list(soup.find(class_="ww").strings))
         except:
             description = ""
-        return ScrapeResult(title, place, place_address, image_url, start_time, end_time, description)
+        return ScrapeResult(title, place, place_address,
+                            image_url, start_time, end_time, description)
     except:
         logging.exception("Failed to parse {}".format(url))
         return None
