@@ -13,10 +13,11 @@ jobs:
     steps:
       - checkout
       - run:
-          name: install CLI AWS tools
+          name: install AWS / expo tools
           command: |
             pip install awscli --upgrade --user
             pip install awsebcli --upgrade --user
+            yarn global add expo-cli
 
       - run:
           name: deploy api
@@ -57,9 +58,9 @@ jobs:
           command: |
             yarn
             echo "logging to expo"
-            npx expo login -u $EXPO_USERNAME -p $EXPO_PASSWORD
+            expo login -u $EXPO_USERNAME -p $EXPO_PASSWORD
             echo "publishing new app version"
-            npx expo publish --non-interactive
+            expo publish --non-interactive
 
       - save_cache:
           paths:
