@@ -36,7 +36,7 @@ class Events extends React.PureComponent {
     });
   };
   goToEvent = e => {
-    this.props.navigation.navigate("Event", e);
+    this.props.navigation.navigate("Event", { id: e.id });
   };
 
   interestToggle = async e => {

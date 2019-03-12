@@ -28,20 +28,30 @@ jobs:
 
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "admin/package.json" }}
+            - v1-dependencies-{{ checksum "admin/package.json" }}-{{ checksum "website/package.json"}}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
+      - run:
+          name: install workspace dependencies
+          command: yarn install
 
       - run:
           name: deploy admin
           working_directory: admin
           command: |
             export PATH=~/.local/bin:$PATH
-            yarn install
+            chmod +x deploy.sh
+            ./deploy.sh 
+
+      - run:
+          name: deploy website
+          working_directory: website
+          command: |
+            export PATH=~/.local/bin:$PATH
             chmod +x deploy.sh
             ./deploy.sh 
 
       - save_cache:
           paths:
             - admin/node_modules
-          key: v1-dependencies-{{ checksum "admin/package.json" }}
+          key: v1-dependencies-{{ checksum "admin/package.json" }}-{{ checksum "website/package.json"}}

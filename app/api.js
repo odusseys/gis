@@ -18,6 +18,7 @@ const post = async (endpoint, data = {}) => {
 const api = {
   events: {
     list: () => get("/v1/events"),
+    get: ({ id }) => get(`/v1/events/${id}`),
     interested: ({ event_id, interested }) =>
       post(`/v1/events/${event_id}/interest`, { interested })
   },

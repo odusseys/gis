@@ -4,3 +4,5 @@ run_dev.sh
 connect_server.sh
 deploy_server.sh
 api/config.json
+node_modules
+yarn-error.log

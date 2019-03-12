@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Image } from "react-native";
+import { Image, ActivityIndicator } from "react-native";
 import { Ionicons, Feather } from "@expo/vector-icons";
 import moment from "moment";
 import { Caption, Body, Title } from "kiki/library/text";
@@ -9,6 +9,7 @@ import BaseScreen from "kiki/screens/BaseScreen";
 import frLocale from "moment/locale/fr";
 import IconRow from "./IconRow";
 import Place from "./Place";
+import api from "kiki/api";
 
 const formatDate = d =>
   moment(d)
@@ -21,6 +22,7 @@ const Container = styled.View`
   background-color: ${colors.white};
   padding: 30px;
   align-items: center;
+  justify-content: center;
 `;
 
 const ImageContainer = styled.View`
@@ -54,8 +56,7 @@ const Event = ({
   image_url,
   description,
   start_date,
-  end_date,
-  ...rest
+  end_date
 }) => {
   return (
     <Container onPress={onPress}>
@@ -75,8 +76,28 @@ const Event = ({
   );
 };
 
-const EventScreen = ({ navigation }) => {
-  return <Event {...navigation.state.params} />;
-};
+class EventScreen extends React.Component {
+  state = {
+    loading: true,
+    event: null
+  };
+  componentDidMount = async () => {
+    const { id } = this.props.navigation.state.params;
+    const event = await api.events.get({ id });
+    this.setState({ event, loading: false });
+  };
+  render() {
+    const { loading, event } = this.state;
+    if (loading) {
+      return (
+        <Container>
+          <ActivityIndicator />
+        </Container>
+      );
+    } else {
+      return <Event {...event} />;
+    }
+  }
+}
 
 export default BaseScreen(EventScreen);
