@@ -30,7 +30,6 @@ const Content = styled.div`
 `;
 
 const Pane = styled.div`
-  padding: 0 40px;
   overflow-y: auto;
 `;
 
@@ -66,8 +65,25 @@ class Home extends Component {
   };
 
   onActiveToggle = async d => {
-    await api.events.toggle(d);
-    await this.fetchEvents();
+    const { id, active } = d;
+    if (!active) {
+      const events = this.state.events.filter(e => e.id !== id);
+      this.setState({ events }, async () => {
+        try {
+          await api.events.toggle(d);
+        } catch (e) {
+          console.error("failed to update");
+          await this.fetchEvents();
+        }
+      });
+    } else {
+      try {
+        await api.events.toggle(d);
+      } catch (e) {
+        console.error("failed to update");
+        await this.fetchEvents();
+      }
+    }
   };
 
   mode = () => (this.state.selectedEvent ? "edit" : "create");
@@ -86,7 +102,6 @@ class Home extends Component {
         </TopBar>
         <Content>
           <Pane style={{ flex: 1 }}>
-            <h4>Upcoming</h4>
             <EventListing
               events={events}
               selectedEvent={selectedEvent}

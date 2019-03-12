@@ -14,6 +14,7 @@ const Form = styled.form`
   flex-direction: column;
   width: 400px;
   max-width: 400px;
+  padding: 25px;
   & > button {
     align-self: flex-end;
   }

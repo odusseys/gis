@@ -22,7 +22,9 @@ const EventContainer = styled.div`
   position: relative;
   display: flex;
   align-items: center;
-  padding: 8px;
+  padding: 8px 25px;
+  height: 70px;
+  max-height: 70px;
   cursor: pointer;
   background-color: ${backgroundColor};
   & > * {
@@ -46,7 +48,14 @@ class Event extends React.Component {
     showOverlay: false
   };
   render() {
-    const { onClick, selected, onDelete, onActiveToggle, event } = this.props;
+    const {
+      onClick,
+      selected,
+      onDelete,
+      onActiveToggle,
+      event,
+      style
+    } = this.props;
     const {
       id,
       name,
@@ -62,8 +71,9 @@ class Event extends React.Component {
         onClick={onClick}
         selected={selected}
         active={active}
-        onMouseEnter={() => this.setState({ showOverlay: true })}
+        onMouseOver={() => this.setState({ showOverlay: true })}
         onMouseLeave={() => this.setState({ showOverlay: false })}
+        style={style}
       >
         <EventBadge image_url={image_url} />
         <span style={{ fontWeight: "bold" }}>{name}</span>
