@@ -56,7 +56,9 @@ jobs:
           working_directory: app
           command: |
             yarn
+            echo "logging to expo"
             npx expo login -u $EXPO_USERNAME -p $EXPO_PASSWORD
+            echo "publishing new app version"
             npx expo publish --non-interactive
 
       - save_cache:
