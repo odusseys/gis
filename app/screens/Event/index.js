@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import { Image, ActivityIndicator } from "react-native";
-import { Ionicons, Feather } from "@expo/vector-icons";
+import { Image, ActivityIndicator, Platform, Share } from "react-native";
+import { Feather } from "@expo/vector-icons";
 import moment from "moment";
 import { Caption, Body, Title } from "kiki/library/text";
 import colors from "kiki/styles/colors";
@@ -15,6 +15,8 @@ const formatDate = d =>
   moment(d)
     .locale("fr", frLocale)
     .format("LLLL");
+
+const shareIconName = Platform.select({ ios: "share", android: "share-2" });
 
 const Container = styled.View`
   flex: 1;
@@ -38,6 +40,12 @@ const Description = styled.ScrollView`
   align-self: stretch;
 `;
 
+const ShareContainer = styled.TouchableOpacity`
+  position: absolute;
+  top: 80px;
+  right: 40px;
+`;
+
 const Dates = ({ start, end }) => {
   return (
     <IconRow icon={p => <Feather name="clock" {...p} />} wrap>
@@ -56,7 +64,8 @@ const Event = ({
   image_url,
   description,
   start_date,
-  end_date
+  end_date,
+  share
 }) => {
   return (
     <Container onPress={onPress}>
@@ -72,6 +81,9 @@ const Event = ({
       <Description>
         <Body text={description} color="black" hyperlinks />
       </Description>
+      <ShareContainer onPress={share}>
+        <Feather name={shareIconName} size={20} color="gray" />
+      </ShareContainer>
     </Container>
   );
 };
@@ -86,6 +98,11 @@ class EventScreen extends React.Component {
     const event = await api.events.get({ id });
     this.setState({ event, loading: false });
   };
+  share = () => {
+    const { name, id } = this.state.event;
+    const url = `https://www.kiki.rocks/event/${id}`;
+    Share.share({ message: url, url, title: name });
+  };
   render() {
     const { loading, event } = this.state;
     if (loading) {
@@ -95,7 +112,7 @@ class EventScreen extends React.Component {
         </Container>
       );
     } else {
-      return <Event {...event} />;
+      return <Event {...event} share={this.share} />;
     }
   }
 }
