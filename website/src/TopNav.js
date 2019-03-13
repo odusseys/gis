@@ -7,6 +7,9 @@ const Container = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 15px 30px;
+  @media (max-width: 600px) {
+    padding: 8px 20px;
+  }
   box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, 0.15);
 `;
 

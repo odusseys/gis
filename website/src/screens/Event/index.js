@@ -3,11 +3,12 @@ import styled from "styled-components";
 import api from "api";
 import moment from "moment";
 import frLocale from "moment/locale/fr";
+import Linkify from "react-linkify";
 
 const formatDate = d =>
   moment(d)
     .locale("fr", frLocale)
-    .format("LLLL");
+    .format("dddd D MMMM HH:mm");
 
 const Container = styled.div`
   width: 100%;
@@ -32,6 +33,8 @@ const Image = styled.img`
 
 const Pane = styled.div`
   padding: 30px;
+  display: flex;
+  flex-direction: column;
   &:first-child {
     border-right: 1px rgba(0, 0, 0, 0.05) solid;
     @media (max-width: 600px) {
@@ -62,7 +65,7 @@ class Event extends Component {
     return (
       <React.Fragment>
         <div>du {formatDate(start_date)}</div>
-        <div style={{ marginBottom: 12 }}>à {formatDate(end_date)}</div>
+        <div style={{ marginBottom: 12 }}>au {formatDate(end_date)}</div>
         <div>
           {place_name} - {place_address}
         </div>
@@ -74,7 +77,7 @@ class Event extends Component {
     const { image_url, name, description } = this.state.event;
     return (
       <React.Fragment>
-        <Pane style={{ flex: 1 }}>
+        <Pane style={{ flex: 1, alignItems: "center" }}>
           <Title>
             <Image src={image_url} alt={name} />
             {name}
@@ -82,18 +85,16 @@ class Event extends Component {
           {this.renderDetails()}
         </Pane>
         <Pane style={{ flex: 2 }}>
-          <div style={{ whiteSpace: "pre-wrap" }}>{description}</div>
+          <div style={{ whiteSpace: "pre-wrap" }}>
+            <Linkify>{description}</Linkify>
+          </div>
         </Pane>
       </React.Fragment>
     );
   };
   render() {
     const { loading } = this.state;
-    return (
-      <Container>
-        {loading ? <div>Loading</div> : this.renderLoaded()}
-      </Container>
-    );
+    return <Container>{loading ? <div /> : this.renderLoaded()}</Container>;
   }
 }
 

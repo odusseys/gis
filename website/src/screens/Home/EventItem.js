@@ -9,14 +9,13 @@ const formatDate = d =>
     .format("LLLL");
 
 const Container = styled.div`
-  width: 100%;
-  max-width: 100%;
-  height: 90px;
   padding: 10px;
+  width: 250px;
 `;
 
 const Content = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: space-between;
   padding: 10px;
@@ -28,10 +27,10 @@ const Content = styled.div`
 `;
 
 const ImageContainer = styled.div`
-  max-width: 100px;
-  max-height: 50px;
-  height: 50px;
-  width: 100px;
+  max-width: 100%;
+  max-height: 100px;
+  height: 100px;
+  width: 100%;
   margin-right: 8px;
   display: flex;
   align-items: center;
@@ -50,10 +49,9 @@ const EventItem = ({ onClick, event, style }) => {
             alt={name}
           />
         </ImageContainer>
-        <div style={{ flex: 1 }}>
-          {name} - {place_name}
-        </div>
-        <div>{formatDate(start_date)}</div>
+        <div>{name}</div>
+        <div style={{ fontSize: 10 }}>{place_name}</div>
+        <div style={{ fontSize: 12 }}>{formatDate(start_date)}</div>
       </Content>
     </Container>
   );
