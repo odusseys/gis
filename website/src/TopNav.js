@@ -11,6 +11,10 @@ const Container = styled.div`
     padding: 8px 20px;
   }
   box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, 0.15);
+  & > h1 {
+    font-size: 18px;
+    font-weight: normal;
+  }
 `;
 
 const Row = styled.div`
@@ -57,7 +61,7 @@ class TopNav extends Component {
             </Row>
           </Link>
         </Title>
-
+        <h1>Tes sorties gay à Paris</h1>
         <Links>
           <Link to="/privacy">Privacy</Link>
           <Link to="/terms">Terms</Link>

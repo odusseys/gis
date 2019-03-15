@@ -4,6 +4,7 @@ import api from "api";
 import moment from "moment";
 import frLocale from "moment/locale/fr";
 import Linkify from "react-linkify";
+import colors from "../../styles/colors";
 
 const formatDate = d =>
   moment(d)
@@ -13,9 +14,11 @@ const formatDate = d =>
 const Container = styled.div`
   width: 100%;
   display: flex;
+  min-height: 100%;
   @media (max-width: 600px) {
     flex-direction: column;
   }
+  background-color: ${colors.coal};
 `;
 
 const Title = styled.div`
@@ -28,20 +31,28 @@ const Title = styled.div`
 `;
 
 const Image = styled.img`
-  max-height: 120px;
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
 `;
 
 const Pane = styled.div`
-  padding: 30px;
   display: flex;
   flex-direction: column;
+  background: white;
+  margin: 15px;
+  align-self: flex-start;
   &:first-child {
-    border-right: 1px rgba(0, 0, 0, 0.05) solid;
+    margin-right: 0;
     @media (max-width: 600px) {
-      border-right: none;
-      border-bottom: 1px rgba(0, 0, 0, 0.05) solid;
+      margin-right: 15px;
+      margin-bottom: 0;
     }
   }
+`;
+
+const TextBlock = styled.div`
+  padding: 30px;
 `;
 
 class Event extends Component {
@@ -60,16 +71,18 @@ class Event extends Component {
       start_date,
       end_date,
       place_name,
-      place_address
+      place_address,
+      name
     } = this.state.event;
     return (
-      <React.Fragment>
+      <TextBlock>
+        <Title>{name}</Title>
         <div>du {formatDate(start_date)}</div>
         <div style={{ marginBottom: 12 }}>au {formatDate(end_date)}</div>
         <div>
           {place_name} - {place_address}
         </div>
-      </React.Fragment>
+      </TextBlock>
     );
   };
 
@@ -78,16 +91,13 @@ class Event extends Component {
     return (
       <React.Fragment>
         <Pane style={{ flex: 1, alignItems: "center" }}>
-          <Title>
-            <Image src={image_url} alt={name} />
-            {name}
-          </Title>
+          <Image src={image_url} alt={name} />
           {this.renderDetails()}
         </Pane>
         <Pane style={{ flex: 2 }}>
-          <div style={{ whiteSpace: "pre-wrap" }}>
+          <TextBlock style={{ whiteSpace: "pre-wrap" }}>
             <Linkify>{description}</Linkify>
-          </div>
+          </TextBlock>
         </Pane>
       </React.Fragment>
     );

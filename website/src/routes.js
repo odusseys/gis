@@ -12,7 +12,7 @@ class Router extends React.Component {
         <Route exact path="/" component={Home} />
         <Route exact path="/terms" component={Terms} />
         <Route exact path="/privacy" component={Privacy} />
-        <Route exact path="/event/:id" component={Event} />
+        <Route exact path="/events/:id" component={Event} />
         <Redirect to="/" />
       </Switch>
     );

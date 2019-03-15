@@ -71,7 +71,6 @@ class Signup extends React.Component {
         verification_code: this.state.verificationCode
       });
     }
-    console.warn("result is: ", res);
     this.props.dispatch({ type: "LOGIN", ...res });
     this.props.navigation.navigate("Home");
   };

@@ -1,29 +1,29 @@
 import React, { Component } from "react";
 import api from "api";
-import {
-  List,
-  AutoSizer,
-  CellMeasurer,
-  CellMeasurerCache
-} from "react-virtualized";
 import styled from "styled-components";
 import EventItem from "./EventItem";
 import { withRouter } from "react-router-dom";
 
 import { getEventGroups } from "./util";
+import LazyListLoader from "components/LazyListLoader";
+import colors from "styles/colors";
 
 const Container = styled.div`
   width: 100%;
   height: 100%;
   max-width: 100%;
-  overflow: hidden;
+  overflow-y: auto;
+  background: ${colors.coal};
+  & > h1,
+  h2 {
+    text-align: center;
+    font-weight: normal;
+    color: white;
+  }
+  h2 {
+    font-weight: bold;
+  }
 `;
-
-const cellCache = new CellMeasurerCache({
-  defaultWidth: 100,
-  minWidth: 75,
-  fixedWidth: true
-});
 
 const Events = styled.div`
   display: flex;
@@ -33,24 +33,16 @@ const Events = styled.div`
 
 class EventGroup extends React.PureComponent {
   render() {
-    const { group, events, index, parent, style, onClick } = this.props;
+    const { group, events } = this.props;
     return (
-      <CellMeasurer
-        rowIndex={index}
-        parent={parent}
-        cache={cellCache}
-        columnIndex={0}
-        key={group}
-      >
-        <div style={style}>
-          <h1 style={{ textAlign: "center" }}>{group}</h1>
-          <Events>
-            {events.map(e => (
-              <EventItem key={e.id} event={e} onClick={() => onClick(e)} />
-            ))}
-          </Events>
-        </div>
-      </CellMeasurer>
+      <div>
+        <h2>{group}</h2>
+        <Events>
+          {events.map(e => (
+            <EventItem key={e.id} event={e} />
+          ))}
+        </Events>
+      </div>
     );
   }
 }
@@ -66,30 +58,15 @@ class Home extends Component {
     const groups = getEventGroups(events);
     return (
       <Container>
-        <AutoSizer>
-          {({ height, width }) => (
-            <List
-              ref={r => (this.list = r)}
-              width={width}
-              height={height}
-              rowCount={groups.length}
-              deferredMeasurementCache={cellCache}
-              rowHeight={cellCache.rowHeight}
-              rowRenderer={({ index, ...rest }) => {
-                const { group, events } = groups[index];
-                return (
-                  <EventGroup
-                    events={events}
-                    group={group}
-                    index={index}
-                    onClick={e => this.props.history.push(`/event/${e.id}`)}
-                    {...rest}
-                  />
-                );
-              }}
-            />
+        <LazyListLoader
+          items={groups}
+          chunkSize={5}
+          firstChunkSize={1}
+          offset={5}
+          renderItem={({ group, events }) => (
+            <EventGroup events={events} group={group} key={group} />
           )}
-        </AutoSizer>
+        />
       </Container>
     );
   }

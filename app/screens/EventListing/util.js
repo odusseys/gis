@@ -15,6 +15,8 @@ export const getEventGroups = events => {
   const result = [];
   for (let e of events) {
     let date = moment(e.start_date);
+    //adjust date to account for events starting shortly after midnight
+    date.subtract(3, "hours");
     if (moment(date).isBefore(todayMoment)) {
       date = todayMoment;
     }
