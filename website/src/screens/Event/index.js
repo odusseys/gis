@@ -4,6 +4,7 @@ import api from "api";
 import moment from "moment";
 import frLocale from "moment/locale/fr";
 import Linkify from "react-linkify";
+import { FaRegClock, FaMapMarkerAlt } from "react-icons/fa";
 import colors from "../../styles/colors";
 
 const formatDate = d =>
@@ -26,7 +27,6 @@ const Title = styled.div`
   flex-direction: column;
   align-items: center;
   font-size: 40px;
-  margin-bottom: 30px;
   text-align: center;
 `;
 
@@ -52,8 +52,27 @@ const Pane = styled.div`
 `;
 
 const TextBlock = styled.div`
-  padding: 30px;
+  padding: 20px 30px;
+  width: 100%;
+  border-bottom: 1px rgba(0, 0, 0, 0.1) solid;
+  &:last-child {
+    border-bottom: none;
+  }
 `;
+
+const IconRowContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const IconRow = ({ icon: Icon, children }) => {
+  return (
+    <IconRowContainer>
+      <Icon color="gray" style={{ marginRight: 12 }} />
+      <div>{children}</div>
+    </IconRowContainer>
+  );
+};
 
 class Event extends Component {
   state = {
@@ -75,14 +94,23 @@ class Event extends Component {
       name
     } = this.state.event;
     return (
-      <TextBlock>
-        <Title>{name}</Title>
-        <div>du {formatDate(start_date)}</div>
-        <div style={{ marginBottom: 12 }}>au {formatDate(end_date)}</div>
-        <div>
-          {place_name} - {place_address}
-        </div>
-      </TextBlock>
+      <React.Fragment>
+        <TextBlock>
+          <Title>{name}</Title>
+        </TextBlock>
+        <TextBlock>
+          <IconRow icon={FaRegClock}>
+            <div>du {formatDate(start_date)}</div>
+
+            <div>au {formatDate(end_date)}</div>
+          </IconRow>
+        </TextBlock>
+        <TextBlock>
+          <IconRow icon={FaMapMarkerAlt}>
+            {place_name} - {place_address}
+          </IconRow>
+        </TextBlock>
+      </React.Fragment>
     );
   };
 
@@ -95,7 +123,13 @@ class Event extends Component {
           {this.renderDetails()}
         </Pane>
         <Pane style={{ flex: 2 }}>
-          <TextBlock style={{ whiteSpace: "pre-wrap" }}>
+          <TextBlock
+            style={{
+              whiteSpace: "pre-wrap",
+              paddingTop: 30,
+              paddingBottom: 30
+            }}
+          >
             <Linkify>{description}</Linkify>
           </TextBlock>
         </Pane>
