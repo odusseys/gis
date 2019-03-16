@@ -9,19 +9,19 @@ const Container = styled.TouchableOpacity`
   justify-content: center;
   padding: 10px 20px;
   border-radius: 10px;
-  background-color: ${p => (p.active ? colors.yellow : "white")};
-  border: 1px ${p => (p.active ? colors.yellow : colors.lightGrey)} solid;
+  background-color: ${p => (p.active ? colors.coal : "white")};
+  border: 1px ${p => (p.active ? colors.coal : colors.lightGrey)} solid;
 `;
 
 const Filter = ({ icon: Icon, name, onPress, active, ...rest }) => {
   return (
     <Container active={active} onPress={onPress} {...rest}>
       <Icon
-        color={active ? colors.white : colors.yellow}
+        color={active ? colors.white : colors.coal}
         size={20}
         style={{ marginRight: 8 }}
       />
-      <Body name={name} color={active ? colors.white : colors.yellow} />
+      <Body name={name} color={active ? colors.white : colors.coal} />
     </Container>
   );
 };

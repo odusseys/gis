@@ -15,5 +15,6 @@
   "CLEAR_DATE_FILTER": "Retirer le filtre",
   "CALENDAR_FILTER": "Calendrier",
   "INTERESTED_FILTER": "Favoris",
-  "NO_EVENTS": "Aucun événement 😔"
+  "NO_EVENTS": "Aucun événement 😔",
+  "SHARE": "Partager"
 }

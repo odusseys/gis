@@ -15,10 +15,6 @@ const Container = styled.TouchableOpacity`
   padding: 10px;
   margin-horizontal: 10px;
   margin-vertical: 5px;
-  shadow-color: black;
-  shadow-opacity: 0.2;
-  shadow-offset: 1px 1px;
-  elevation: 1;
   background-color: ${colors.white};
 `;
 

@@ -43,7 +43,7 @@ export const Text = ({
         linkDefault
         linkStyle={
           highlightLinks
-            ? { color: colors.yellow, textDecorationLine: "underline" }
+            ? { color: colors.coal, textDecorationLine: "underline" }
             : {}
         }
       >

@@ -8,6 +8,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import store, { persistor } from "store";
 import colors from "kiki/styles/colors";
 import { Title } from "kiki/library/text";
+import Rainbow from "./Rainbow";
 
 const HeaderContainer = styled.View`
   align-self: stretch;
@@ -50,8 +51,7 @@ const Header = connect(state => ({ connected: !!state.auth.token }))(
 
 const Container = styled.View`
   flex: 1;
-  background-color: ${colors.white};
-  /* padding-top: ${Platform.OS === "ios" ? 0 : StatusBar.currentHeight}px; */
+  background-color: ${colors.coal};
 `;
 
 const BaseScreenMaker = (Component, options = {}) => {
@@ -76,6 +76,7 @@ const BaseScreenMaker = (Component, options = {}) => {
                   backgroundColor={colors.white}
                   barStyle="dark-content"
                 />
+                <Rainbow />
                 <Component {...this.props} />
               </Container>
             </SafeAreaView>

@@ -4,6 +4,7 @@ import { FlatList } from "react-native";
 import EventItem from "./EventItem";
 import { Title } from "kiki/library/text";
 import { getItems } from "./util";
+import colors from "kiki/styles/colors";
 
 const TitleContainer = styled.View`
   padding-vertical: 10px;
@@ -25,7 +26,11 @@ class EventList extends React.Component {
     if (item.type === "GROUP") {
       return (
         <TitleContainer>
-          <Title text={item.name} style={{ fontWeight: "bold" }} />
+          <Title
+            color="white"
+            text={item.name}
+            style={{ fontWeight: "bold" }}
+          />
         </TitleContainer>
       );
     } else {
@@ -45,14 +50,14 @@ class EventList extends React.Component {
     if (!items.length) {
       return (
         <NoEvents>
-          <Title name="NO_EVENTS" />
+          <Title color="white" name="NO_EVENTS" />
         </NoEvents>
       );
     }
     return (
       <FlatList
         style={{
-          backgroundColor: "white",
+          backgroundColor: colors.coal,
           maxWidth: "100%",
           width: "100%"
         }}

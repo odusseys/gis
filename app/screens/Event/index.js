@@ -18,11 +18,19 @@ const formatDate = d =>
 
 const shareIconName = Platform.select({ ios: "share", android: "share-2" });
 
-const Container = styled.View`
+const Container = styled.ScrollView`
   flex: 1;
+  background-color: ${colors.coal};
   width: 100%;
+  padding-top: 20px;
+`;
+
+const Contents = styled.View`
   background-color: ${colors.white};
-  padding: 30px;
+  margin: 20px;
+  margin-top: 0;
+  padding: 15px;
+  align-self: stretch;
   align-items: center;
   justify-content: center;
 `;
@@ -35,15 +43,12 @@ const ImageContainer = styled.View`
   margin-bottom: 20px;
 `;
 
-const Description = styled.ScrollView`
+const ShareContainer = styled.TouchableOpacity`
   flex: 1;
   align-self: stretch;
-`;
-
-const ShareContainer = styled.TouchableOpacity`
-  position: absolute;
-  top: 80px;
-  right: 40px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
 `;
 
 const Dates = ({ start, end }) => {
@@ -57,7 +62,6 @@ const Dates = ({ start, end }) => {
 };
 
 const Event = ({
-  onPress,
   name,
   place_name,
   place_address,
@@ -68,22 +72,27 @@ const Event = ({
   share
 }) => {
   return (
-    <Container onPress={onPress}>
-      <ImageContainer>
-        <Image
-          source={{ uri: image_url }}
-          style={{ maxHeight: "100%", height: "100%" }}
-        />
-      </ImageContainer>
-      <Title text={name} color="black" style={{ marginBottom: 12 }} />
-      <Place name={place_name} address={place_address} />
-      <Dates start={start_date} end={end_date} />
-      <Description>
+    <Container>
+      <Contents>
+        <ImageContainer>
+          <Image
+            source={{ uri: image_url }}
+            style={{ maxHeight: "100%", height: "100%" }}
+          />
+        </ImageContainer>
+        <Title text={name} color="black" style={{ marginBottom: 12 }} />
+        <Place name={place_name} address={place_address} />
+        <Dates start={start_date} end={end_date} />
+      </Contents>
+      <Contents>
+        <ShareContainer onPress={share}>
+          <Body name="SHARE" style={{ marginRight: 8 }} />
+          <Feather name={shareIconName} size={20} color={colors.coal} />
+        </ShareContainer>
+      </Contents>
+      <Contents>
         <Body text={description} color="black" hyperlinks />
-      </Description>
-      <ShareContainer onPress={share}>
-        <Feather name={shareIconName} size={20} color="gray" />
-      </ShareContainer>
+      </Contents>
     </Container>
   );
 };

@@ -113,11 +113,11 @@ class CalendarFilter extends Component {
           firstDay={1}
           theme={{
             selectedDayTextColor: colors.white,
-            selectedDayBackgroundColor: colors.yellow,
-            todayTextColor: colors.yellow,
-            dotColor: colors.yellow,
-            selectedDotColor: colors.yellow,
-            arrowColor: colors.yellow
+            selectedDayBackgroundColor: colors.coal,
+            todayTextColor: colors.coal,
+            dotColor: colors.coal,
+            selectedDotColor: colors.coal,
+            arrowColor: colors.coal
           }}
         />
       </CalendarContainer>

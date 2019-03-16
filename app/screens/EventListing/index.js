@@ -2,18 +2,18 @@ import React from "react";
 import styled from "styled-components";
 import { ActivityIndicator, View } from "react-native";
 import { connect } from "react-redux";
-import { Title } from "kiki/library/text";
 import api from "kiki/api";
 import BaseScreen from "kiki/screens/BaseScreen";
 import EventList from "./EventList";
 import { extractDistinctDates, filterByDate } from "./util";
 import Filters from "./Filters";
+import colors from "kiki/styles/colors";
 
 const Container = styled.View`
   flex: 1;
   align-self: stretch;
   align-items: center;
-  background-color: white;
+  background-color: ${colors.coal};
   max-width: 100%;
   width: 100%;
 `;
