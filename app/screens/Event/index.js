@@ -29,22 +29,21 @@ const Contents = styled.View`
   background-color: ${colors.white};
   margin: 20px;
   margin-top: 0;
-  padding: 15px;
   align-self: stretch;
   align-items: center;
   justify-content: center;
 `;
 
 const ImageContainer = styled.View`
-  max-width: 200px;
-  max-height: 140px;
-  height: 140;
-  width: 200;
+  width: 100%;
+  max-height: 180px;
+  height: 180px;
   margin-bottom: 20px;
 `;
 
 const ShareContainer = styled.TouchableOpacity`
   flex: 1;
+  padding: 15px;
   align-self: stretch;
   justify-content: center;
   align-items: center;
@@ -60,6 +59,11 @@ const Dates = ({ start, end }) => {
     </IconRow>
   );
 };
+
+const Padding = styled.View`
+  padding: 15px;
+  align-self: stretch;
+`;
 
 const Event = ({
   name,
@@ -77,12 +81,15 @@ const Event = ({
         <ImageContainer>
           <Image
             source={{ uri: image_url }}
-            style={{ maxHeight: "100%", height: "100%" }}
+            style={{ width: "100%", height: "100%" }}
+            resizeMode="cover"
           />
         </ImageContainer>
-        <Title text={name} color="black" style={{ marginBottom: 12 }} />
-        <Place name={place_name} address={place_address} />
-        <Dates start={start_date} end={end_date} />
+        <Padding>
+          <Title text={name} color="black" style={{ marginBottom: 12 }} />
+          <Place name={place_name} address={place_address} />
+          <Dates start={start_date} end={end_date} />
+        </Padding>
       </Contents>
       <Contents>
         <ShareContainer onPress={share}>
@@ -91,7 +98,9 @@ const Event = ({
         </ShareContainer>
       </Contents>
       <Contents>
-        <Body text={description} color="black" hyperlinks />
+        <Padding>
+          <Body text={description} color="black" hyperlinks />
+        </Padding>
       </Contents>
     </Container>
   );

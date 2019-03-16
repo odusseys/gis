@@ -1,53 +1,13 @@
 import React from "react";
-import { StatusBar, Platform, SafeAreaView } from "react-native";
+import { StatusBar, SafeAreaView } from "react-native";
 import { PersistGate } from "redux-persist/es/integration/react";
-import { Provider, connect } from "react-redux";
+import { Provider } from "react-redux";
 import styled from "styled-components";
-import { MaterialIcons } from "@expo/vector-icons";
 
 import store, { persistor } from "store";
 import colors from "kiki/styles/colors";
-import { Title } from "kiki/library/text";
 import Rainbow from "./Rainbow";
-
-const HeaderContainer = styled.View`
-  align-self: stretch;
-  align-items: center;
-  max-height: 50px;
-  height: 50px;
-  padding-horizontal: 12px;
-  flex-direction: row;
-  justify-content: space-between;
-  width: 100%;
-`;
-
-const HeaderDumb = ({ navigation, title, connected }) => {
-  return (
-    <HeaderContainer>
-      <Title
-        text="🎉"
-        style={{ fontSize: 30, marginBottom: 6, marginRight: 15 }}
-      />
-      <Title
-        text={title || "Kiki"}
-        style={{ fontSize: 30, fontWeight: "bold", flex: 1 }}
-      />
-      {connected && (
-        <MaterialIcons
-          name="settings"
-          color={colors.grey}
-          size={24}
-          style={{}}
-          onPress={() => navigation.navigate("Settings")}
-        />
-      )}
-    </HeaderContainer>
-  );
-};
-
-const Header = connect(state => ({ connected: !!state.auth.token }))(
-  HeaderDumb
-);
+import Header from "./Header";
 
 const Container = styled.View`
   flex: 1;

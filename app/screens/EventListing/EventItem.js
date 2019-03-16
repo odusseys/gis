@@ -12,7 +12,6 @@ const Container = styled.TouchableOpacity`
   align-self: stretch;
   align-items: center;
   justify-content: space-between;
-  padding: 10px;
   margin-horizontal: 10px;
   margin-vertical: 5px;
   background-color: ${colors.white};

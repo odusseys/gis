@@ -29,7 +29,7 @@ const Rainbow = () => {
   return (
     <Container>
       {COLORS.map(c => (
-        <Stripe style={{ backgroundColor: c }} />
+        <Stripe key={c} style={{ backgroundColor: c }} />
       ))}
     </Container>
   );
